@@ -11,6 +11,13 @@ local package_ids = {
   "BattleNetwork3.Virus.Boomer",
   "BattleNetwork4.Gaia",
   "BattleNetwork5.Powie",
+  -- tile states
+  "BattleNetwork5.TileStates.Sea",
+  "BattleNetwork6.TileStates.Ice",
+  "BattleNetwork6.TileStates.Poison",
+  "BattleNetwork6.TileStates.Volcano",
+  "BattleNetwork6.TileStates.Holy",
+  "BattleNetwork6.TileStates.Grass",
   -- libraries
   "BattleNetwork6.Libraries.HitDamageJudge",
   "dev.konstinople.library.timers",
@@ -18,6 +25,7 @@ local package_ids = {
   "BattleNetwork.FallingRock",
   "BattleNetwork4.TournamentIntro",
   "BattleNetwork6.Libraries.PanelGrab",
+  "BattleNetwork6.Libraries.CubesAndBoulders",
   "dev.konstinople.library.sword",
   "dev.konstinople.library.bomb",
   "dev.konstinople.library.iterator",

@@ -1,6 +1,5 @@
 local Lib = {}
 
-
 ---@param encounter Encounter
 function Lib.randomize_ambience(encounter)
   local bgs = {
@@ -22,7 +21,63 @@ function Lib.randomize_field()
     end
   end
 
+  local function spawn_obstacle(x, y, constructor)
+    local tile = Field.tile_at(x, y)
+
+    if not tile then
+      return
+    end
+
+    ---@type Entity
+    local obstacle = constructor()
+    obstacle:set_team(Team.Other)
+    obstacle:set_owner(Team.Other)
+    Field.spawn(obstacle, tile)
+
+    -- reserve the tile before the cube is spawned
+    tile:reserve_for(obstacle)
+
+    -- make sure to clean up the reservation
+    local action = Action.new(obstacle)
+    action.on_action_end_func = function()
+      tile:remove_reservation_for(obstacle)
+    end
+
+    obstacle:queue_action(action)
+  end
+
+  local function spawn_rock_cube(x, y)
+    spawn_obstacle(x, y, function()
+      local CubesAndBouldersLib = require("BattleNetwork6.Libraries.CubesAndBoulders")
+      return CubesAndBouldersLib.new_rock_cube():create_obstacle()
+    end)
+  end
+
+  local function spawn_ice_cube(x, y)
+    spawn_obstacle(x, y, function()
+      local CubesAndBouldersLib = require("BattleNetwork6.Libraries.CubesAndBoulders")
+      return CubesAndBouldersLib.new_ice_cube():create_obstacle()
+    end)
+  end
+
+  local function spawn_boulder(x, y)
+    spawn_obstacle(x, y, function()
+      local CubesAndBouldersLib = require("BattleNetwork6.Libraries.CubesAndBoulders")
+      return CubesAndBouldersLib.new_boulder():create_obstacle()
+    end)
+  end
+
   local list = {
+    -- centered cubes
+    function()
+      spawn_rock_cube(2, 2)
+      spawn_rock_cube(5, 2)
+    end,
+    -- diagonal cubes
+    function()
+      spawn_rock_cube(3, 1)
+      spawn_rock_cube(4, 3)
+    end,
     -- diagonals cracked
     function()
       set_state(1, 1, TileState.Cracked)
@@ -41,6 +96,13 @@ function Lib.randomize_field()
       set_state(6, 1, TileState.Cracked)
       set_state(4, 6, TileState.Cracked)
       set_state(6, 6, TileState.Cracked)
+    end,
+    -- back row cracked
+    function()
+      for y = 1, 3 do
+        set_state(1, y, TileState.Cracked)
+        set_state(6, y, TileState.Cracked)
+      end
     end,
     -- back row poison
     function()
@@ -67,6 +129,18 @@ function Lib.randomize_field()
         set_state(6, i + 1, TileState.Grass)
       end
     end,
+    -- all grass with rocks
+    function()
+      for i = 1, 2 do
+        set_state(1, i, TileState.Grass)
+        set_state(2, i, TileState.Grass)
+        set_state(5, i + 1, TileState.Grass)
+        set_state(6, i + 1, TileState.Grass)
+      end
+
+      spawn_boulder(2, 1)
+      spawn_boulder(5, 3)
+    end,
     -- front columns ice
     function()
       for y = 1, 3 do
@@ -74,6 +148,12 @@ function Lib.randomize_field()
         set_state(3, y, TileState.Ice)
         set_state(4, y, TileState.Ice)
         set_state(5, y, TileState.Ice)
+      end
+
+      if math.random(2) == 1 then
+        -- diagonal ice
+        spawn_ice_cube(3, 1)
+        spawn_ice_cube(5, 2)
       end
     end,
     -- back columns ice
@@ -83,6 +163,12 @@ function Lib.randomize_field()
         set_state(2, y, TileState.Ice)
         set_state(5, y, TileState.Ice)
         set_state(6, y, TileState.Ice)
+      end
+
+      if math.random(2) == 1 then
+        -- centered ice
+        spawn_ice_cube(2, 2)
+        spawn_ice_cube(5, 2)
       end
     end,
     -- front volcanos

@@ -83,10 +83,27 @@ function encounter_init(encounter, data)
 
         local tile = Field.tile_at(x, y)
 
-        if tile and tile:is_walkable() then
+        if not tile then
+          goto continue
+        end
+
+        if tile:is_walkable() and not tile:is_reserved() then
           encounter:spawn_player(i, x, y)
           break
         end
+
+        if is_blue then
+          tile = tile:get_tile(Direction.Right, 1)
+        else
+          tile = tile:get_tile(Direction.Left, 1)
+        end
+
+        if tile and tile:is_walkable() and not tile:is_reserved() then
+          encounter:spawn_player(i, tile:x(), tile:y())
+          break
+        end
+
+        ::continue::
       end
     else
       encounter:mark_spectator(i)

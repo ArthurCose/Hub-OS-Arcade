@@ -8,6 +8,7 @@ tile_states = [
   "BattleNetwork6.TileStates.Ice",
   "BattleNetwork6.TileStates.Poison",
   "BattleNetwork6.TileStates.Volcano",
-  "BattleNetwork6.TileStates.Holy"
+  "BattleNetwork6.TileStates.Holy",
+  "BattleNetwork6.TileStates.Grass"
 ]
-libraries = []
+libraries = ["BattleNetwork6.Libraries.CubesAndBoulders"]
