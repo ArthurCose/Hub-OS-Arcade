@@ -1,0 +1,13 @@
+[package]
+category = "library"
+id = "dev.konstinople.library.arcade_fields"
+
+[dependencies]
+tile_states = [
+  "BattleNetwork5.TileStates.Sea",
+  "BattleNetwork6.TileStates.Ice",
+  "BattleNetwork6.TileStates.Poison",
+  "BattleNetwork6.TileStates.Volcano",
+  "BattleNetwork6.TileStates.Holy"
+]
+libraries = []

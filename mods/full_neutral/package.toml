@@ -1,0 +1,12 @@
+[package]
+category = "encounter"
+id = "dev.konstinople.battle.neutral_arcade"
+
+[dependencies]
+libraries = [
+  "BattleNetwork6.Libraries.HitDamageJudge",
+  "dev.konstinople.library.timers",
+  "dev.konstinople.library.spectator_fun",
+  "dev.konstinople.library.arcade_fields",
+  "BattleNetwork4.TournamentIntro",
+]

@@ -1,0 +1,12 @@
+[package]
+category = "encounter"
+id = "dev.konstinople.battle.randomized_arcade"
+
+[dependencies]
+libraries = [
+  "BattleNetwork6.Libraries.HitDamageJudge",
+  "dev.konstinople.library.timers",
+  "dev.konstinople.library.spectator_fun",
+  "dev.konstinople.library.arcade_fields",
+  "BattleNetwork4.TournamentIntro",
+]
