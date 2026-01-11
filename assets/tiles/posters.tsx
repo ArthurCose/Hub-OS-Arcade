@@ -3,4 +3,24 @@
  <tileoffset x="0" y="-21"/>
  <grid orientation="isometric" width="64" height="32"/>
  <image source="posters.png" width="112" height="144"/>
+ <tile id="0">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="20.5" y="25" width="8.5" height="34.5"/>
+  </objectgroup>
+ </tile>
+ <tile id="1">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="20.5" y="25" width="8.5" height="34.5"/>
+  </objectgroup>
+ </tile>
+ <tile id="2">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="20.5" y="25" width="8.5" height="34.5"/>
+  </objectgroup>
+ </tile>
+ <tile id="3">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="20.5" y="25" width="8.5" height="34.5"/>
+  </objectgroup>
+ </tile>
 </tileset>
