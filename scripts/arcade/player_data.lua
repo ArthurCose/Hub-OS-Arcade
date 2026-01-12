@@ -10,7 +10,7 @@ local json = require("scripts/libs/json")
 local PlayerSaveData = {}
 PlayerSaveData.__index = PlayerSaveData
 
-local PLAYER_DATA_DIR = "scripts/prizes/_data/players/"
+local PLAYER_DATA_DIR = "scripts/arcade/_data/players/"
 
 ---@type table<string, Arcade.PlayerSaveData>
 local loaded_data = {}

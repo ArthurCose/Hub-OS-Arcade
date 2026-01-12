@@ -1,6 +1,6 @@
-local PlayerSaveData = require("scripts/prizes/player_data")
-local Prizes = require("scripts/prizes/prizes")
-local HashedList = require("scripts/prizes/hashed_list")
+local PlayerSaveData = require("scripts/arcade/player_data")
+local Prizes = require("scripts/arcade/prize_data")
+local HashedList = require("scripts/arcade/hashed_list")
 
 -- the server runs at 20 ticks per second
 local PRIZE_DISPLAY_COOLDOWN = 15
@@ -140,18 +140,15 @@ Net:on("tick", function(event)
 end)
 
 Net:on("battle_results", function(event)
-  print(event)
   if event.ran or event.turns <= 1 then
     return
   end
-  print("b")
 
   local reward = 1
 
   if event.won then
     reward = reward + 1
   end
-  print("cAS")
 
   PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
     save_data.money = save_data.money + reward

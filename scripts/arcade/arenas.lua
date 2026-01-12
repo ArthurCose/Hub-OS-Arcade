@@ -1,4 +1,4 @@
-local BattleArenas = require("scripts/pvp_arena/battle_arenas")
+local BattleArenas = require("scripts/libs/battle_arenas")
 
 local LAUNCH_DIRS = { "Up", "Down" }
 local area_id = "default"
