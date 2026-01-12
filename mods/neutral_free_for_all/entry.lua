@@ -133,25 +133,6 @@ function encounter_init(encounter, data)
 
   encounter:enable_scripted_result()
 
-  -- prevent players from hitting themselves
-  ---@type fun()?
-  local init = function()
-    Field.find_players(function(player)
-      local defense_rule = DefenseRule.new(DefensePriority.First or 0, DefenseOrder.Always)
-
-      defense_rule.defense_func = function(defense, _, _, hit_props)
-        if hit_props.context.aggressor == player:id() then
-          defense:block_damage()
-          defense:set_responded()
-        end
-      end
-
-      player:add_defense_rule(defense_rule)
-
-      return false
-    end)
-  end
-
   -- prevent any attempts at tile ownership
   local artifact = Artifact.new()
   local component = artifact:create_component(Lifetime.Scene)
@@ -174,11 +155,13 @@ function encounter_init(encounter, data)
         has_local = true
       end
 
+      player_count = player_count + 1
+
       return false
     end)
 
     if spectating then
-      if player_count == 0 then
+      if player_count <= 1 then
         encounter:lose()
       end
     else
@@ -189,9 +172,8 @@ function encounter_init(encounter, data)
       end
     end
 
-    if init then
-      init()
-      init = nil
+    if player_count == 0 then
+      encounter:end_scene()
     end
   end
 
