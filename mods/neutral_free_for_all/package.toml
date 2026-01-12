@@ -1,6 +1,6 @@
 [package]
 category = "encounter"
-id = "dev.konstinople.battle.arcade.randomized"
+id = "dev.konstinople.battle.arcade.free_for_all"
 
 [dependencies]
 libraries = [

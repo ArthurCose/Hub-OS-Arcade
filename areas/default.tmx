@@ -18,6 +18,7 @@
  <tileset firstgid="77" source="../assets/tiles/posters.tsx"/>
  <tileset firstgid="89" source="../assets/tiles/portal.tsx"/>
  <tileset firstgid="98" source="../assets/tiles/door.tsx"/>
+ <tileset firstgid="100" source="../assets/tiles/free_for_all.tsx"/>
  <layer id="3" name="Layer 0" width="20" height="16">
   <data encoding="csv">
 0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,0,
@@ -27,8 +28,8 @@
 52,28,27,14,20,28,27,14,20,28,27,14,20,28,30,31,28,29,57,0,
 52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,13,10,11,57,0,
 52,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,18,19,16,17,57,0,
-52,22,43,44,45,22,43,44,45,22,43,44,45,22,24,25,22,23,57,0,
-52,28,49,50,51,28,49,50,51,28,49,50,51,28,30,31,28,29,57,0,
+52,22,43,44,45,22,43,44,45,22,43,101,45,22,24,25,22,23,57,0,
+52,28,49,50,51,28,49,50,51,28,49,107,51,28,30,31,28,29,57,0,
 52,10,27,14,20,10,27,14,20,10,27,14,20,10,12,13,10,11,57,0,
 52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,19,16,17,57,0,
 52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,24,25,22,23,57,0,
@@ -111,7 +112,9 @@
   </object>
   <object id="166" name="Arena" x="320" y="224" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/mods/full_neutral"/>
+    <property name="Encounter" value="/server/mods/neutral_free_for_all"/>
+    <property name="Min Players" type="int" value="2"/>
+    <property name="PVE" type="bool" value="true"/>
    </properties>
   </object>
   <object id="167" name="Arena" x="192" y="224" width="96" height="64">
@@ -122,7 +125,7 @@
   </object>
   <object id="168" name="Arena" x="64" y="224" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/mods/full_neutral"/>
+    <property name="Encounter" value="/server/mods/neutral_teams"/>
    </properties>
   </object>
   <object id="169" name="Arena" x="64" y="64" width="96" height="64">

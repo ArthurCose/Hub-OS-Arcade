@@ -57,6 +57,7 @@ end
 ---@field area_id string
 ---@field encounter_path string
 ---@field pve? boolean when enabled, battle can start if there's at least one player in any required team, otherwise each team requires at least one player
+---@field min_players? number default is 1, only checks required teams
 ---@field team_ranges? BattleArena.TeamRange[] creates a "red" team on the left and "blue" team on the right by default
 ---@field required_teams? string[] all teams are required by default
 
@@ -68,6 +69,7 @@ end
 ---@field teams table<string, Net.ActorId[]>
 ---@field package required_teams string[]
 ---@field package pve? boolean
+---@field package min_players number
 ---@field package encounter_path string
 ---@field package fight_active boolean
 ---@field package countdown_bots Net.ActorId[]
@@ -175,6 +177,7 @@ function Lib.create_arena(area_id, options)
     teams = {},
     fight_active = false,
     pve = options.pve,
+    min_players = options.min_players or 1,
     detection_range = detection_range,
     event_emitter = Net.EventEmitter.new(),
     countdown_bots = countdown_bots,
@@ -278,6 +281,20 @@ function BattleArena:try_start()
   local can_start = not self.fight_active and not self.cancel_countdown_callback
 
   if not can_start then
+    return
+  end
+
+  local total_players = 0
+
+  for _, team_id in ipairs(self.required_teams) do
+    local team_players = self.teams[team_id]
+
+    if team_players then
+      total_players = total_players + #team_players
+    end
+  end
+
+  if total_players < self.min_players then
     return
   end
 

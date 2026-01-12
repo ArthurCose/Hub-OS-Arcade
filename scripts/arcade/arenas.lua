@@ -68,6 +68,7 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
       area_id = area_id,
       encounter_path = object.custom_properties.Encounter,
       pve = object.custom_properties.PVE == "true",
+      min_players = (tonumber(object.custom_properties["Min Players"]) or 1),
       x = object.x,
       y = object.y,
       w = object.width,

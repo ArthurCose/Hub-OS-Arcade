@@ -126,20 +126,9 @@ function encounter_init(encounter, data)
     end
   end
 
-  -- temp set the teams to match the defaults so players adopt default teams
-  for x = 0, w - 1 do
-    local team = Team.Red
-    local direction = Direction.Right
-
-    if x > half_width then
-      direction = Direction.Left
-      team = Team.Blue
-    end
-
-    for y = 0, h - 1 do
-      Field.tile_at(x, y):set_team(team, direction)
-    end
-  end
+  -- temp set the teams for a visual
+  Field.tile_at(2, 2):set_team(Team.Red, Direction.Right)
+  Field.tile_at(5, 2):set_team(Team.Blue, Direction.Left)
 
   -- prevent any attempts at tile ownership
   local artifact = Artifact.new()
@@ -154,6 +143,19 @@ function encounter_init(encounter, data)
         end
       end
     end
+
+    -- fix teams
+    Field.find_players(function(player)
+      if player:team() == Team.Other then
+        if player:current_tile():x() > half_width then
+          player:set_team(Team.Red)
+        else
+          player:set_team(Team.Blue)
+        end
+      end
+
+      return false
+    end)
   end
 
   -- by LDR's request
