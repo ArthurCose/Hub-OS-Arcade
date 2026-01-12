@@ -72,6 +72,7 @@ end
 ---@field package min_players number
 ---@field package encounter_path string
 ---@field package fight_active boolean
+---@field package locked_players table<Net.ActorId, boolean>
 ---@field package countdown_bots Net.ActorId[]
 ---@field package cancel_countdown_callback? function
 local BattleArena = {}
@@ -176,6 +177,7 @@ function Lib.create_arena(area_id, options)
     team_ranges = team_ranges,
     teams = {},
     fight_active = false,
+    locked_players = {},
     pve = options.pve,
     min_players = options.min_players or 1,
     detection_range = detection_range,
@@ -364,6 +366,8 @@ function BattleArena:try_start()
 
           local direction = tracked_player.team_range.face_direction
 
+          self.locked_players[player_id] = true
+
           Net.lock_player_input(player_id)
           Net.animate_player_properties(player_id, {
             {
@@ -478,6 +482,10 @@ local function leave_arena(tracked_player)
 
   if not arena then
     return
+  end
+
+  if arena.locked_players[tracked_player.id] then
+    Net.unlock_player_input(tracked_player.id)
   end
 
   leave_team(tracked_player)
@@ -617,8 +625,15 @@ Net:on("battle_results", function(event)
   end
 
   Async.sleep(0.5).and_then(function()
+    if not tracked_player.arena then
+      return
+    end
+
     eject_player(tracked_player.arena, event.player_id, tracked_player.x, tracked_player.y, tracked_player.z)
-    Net.unlock_player_input(event.player_id)
+
+    if tracked_player.arena.locked_players[event.player_id] then
+      Net.unlock_player_input(event.player_id)
+    end
   end)
 end)
 
