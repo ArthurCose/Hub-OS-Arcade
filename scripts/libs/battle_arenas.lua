@@ -496,10 +496,6 @@ local function update_team(tracked_player, team_range)
     return
   end
 
-  if arena.fight_active and not tracked_player.team_range then
-    eject_player(arena, tracked_player.id)
-  end
-
   if team_range and tracked_player.team_range then
     if tracked_player.team_range == team_range then
       -- no change
@@ -539,6 +535,10 @@ local function update_team(tracked_player, team_range)
   -- try reset and try starting
   arena:try_reset()
   arena:try_start()
+
+  if arena.fight_active then
+    eject_player(arena, tracked_player.id, tracked_player.x, tracked_player.y, tracked_player.z)
+  end
 end
 
 Net:on("player_disconnect", function(event)
