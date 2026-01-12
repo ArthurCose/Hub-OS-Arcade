@@ -35,7 +35,8 @@ local function overlaps_range(x, y, z, range)
       x <= range.x + range.w and
       y >= range.y and
       y <= range.y + range.h and
-      z == range.z
+      z >= range.z and
+      z < range.z + 1
 end
 
 ---@param x number
