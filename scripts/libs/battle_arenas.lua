@@ -487,6 +487,7 @@ local function leave_arena(tracked_player)
 
   if arena.locked_players[tracked_player.id] then
     Net.unlock_player_input(tracked_player.id)
+    arena.locked_players[tracked_player.id] = nil
   end
 
   leave_team(tracked_player)
@@ -625,15 +626,18 @@ Net:on("battle_results", function(event)
     return
   end
 
+  local arena = tracked_player.arena
+
   Async.sleep(0.5).and_then(function()
-    if not tracked_player.arena then
+    if not arena then
       return
     end
 
-    eject_player(tracked_player.arena, event.player_id, tracked_player.x, tracked_player.y, tracked_player.z)
+    eject_player(arena, event.player_id, tracked_player.x, tracked_player.y, tracked_player.z)
 
-    if tracked_player.arena.locked_players[event.player_id] then
+    if arena.locked_players[event.player_id] then
       Net.unlock_player_input(event.player_id)
+      arena.locked_players[tracked_player.id] = nil
     end
   end)
 end)
