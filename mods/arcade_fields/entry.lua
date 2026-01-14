@@ -153,7 +153,7 @@ function Lib.randomize_field()
       if math.random(2) == 1 then
         -- diagonal ice
         spawn_ice_cube(3, 1)
-        spawn_ice_cube(5, 2)
+        spawn_ice_cube(4, 3)
       end
     end,
     -- back columns ice
