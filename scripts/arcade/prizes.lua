@@ -5,6 +5,11 @@ local HashedList = require("scripts/arcade/hashed_list")
 local PRIZE_TEXTURE_PATH = "/server/assets/bots/prizes.png"
 local PRIZE_ANIM_PATH = "/server/assets/bots/prizes.animation"
 
+---@param prize Arcade.PrizeData
+function prize_preview_anim_path(prize)
+  return "/server/assets/prize_previews/" .. prize.state .. ".animation"
+end
+
 -- the server runs at 20 ticks per second
 local PRIZE_DISPLAY_COOLDOWN = 15
 
@@ -198,9 +203,9 @@ Net:on("object_interaction", function(event)
       shop_items[#shop_items + 1] = item
     end
 
-    local events = Net.open_shop(event.player_id, shop_items, SHOP_MUG_TEXTURE, SHOP_MUG_ANIM_PATH)
+    local events = Net.open_shop(player_id, shop_items, SHOP_MUG_TEXTURE, SHOP_MUG_ANIM_PATH)
 
-    Net.set_shop_message(event.player_id, "See anything you like?")
+    Net.set_shop_message(player_id, "See anything you like?")
 
     events:on("shop_purchase", function(event)
       local prize = Prizes.MAP[event.item_id]
@@ -237,27 +242,37 @@ Net:on("object_interaction", function(event)
         return
       end
 
-      save_data.money = save_data.money - prize.price
-      save_data.inventory[prize.id] = 1
-      save_data.active_prize = prize.id
-      save_data:save(player_id)
+      Async.question_player(
+        player_id, "Redeem " .. prize.name .. "?",
+        PRIZE_TEXTURE_PATH,
+        prize_preview_anim_path(prize)
+      ).and_then(function(response)
+        if response ~= 1 then
+          return
+        end
 
-      Net.give_player_item(player_id, prize.id)
-      Net.set_player_money(event.player_id, save_data.money)
-      update_prize_bot(data, save_data)
+        save_data.money = save_data.money - prize.price
+        save_data.inventory[prize.id] = 1
+        save_data.active_prize = prize.id
+        save_data:save(player_id)
 
-      Net.update_shop_item(player_id, {
-        id = prize.id,
-        name = prize.name,
-        price = 0
-      })
+        Net.give_player_item(player_id, prize.id)
+        Net.set_player_money(player_id, save_data.money)
+        update_prize_bot(data, save_data)
 
-      Net.message_player(
-        player_id,
-        "Meet " .. prize.name .. ", congrats!",
-        SHOP_MUG_TEXTURE,
-        SHOP_MUG_ANIM_PATH
-      )
+        Net.update_shop_item(player_id, {
+          id = prize.id,
+          name = prize.name,
+          price = 0
+        })
+
+        Net.message_player(
+          player_id,
+          "Meet " .. prize.name .. ", congrats!",
+          SHOP_MUG_TEXTURE,
+          SHOP_MUG_ANIM_PATH
+        )
+      end)
     end)
 
     events:on("shop_description_request", function(event)
@@ -272,12 +287,12 @@ Net:on("object_interaction", function(event)
         player_id,
         "A prize counter novelty.",
         PRIZE_TEXTURE_PATH,
-        "/server/assets/prize_previews/" .. prize.state .. ".animation"
+        prize_preview_anim_path(prize)
       )
     end)
 
     events:on("shop_leave", function()
-      Net.set_shop_message(event.player_id, "Have fun!")
+      Net.set_shop_message(player_id, "Have fun!")
     end)
 
     events:on("shop_close", function()
