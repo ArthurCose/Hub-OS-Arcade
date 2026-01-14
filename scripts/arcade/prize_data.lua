@@ -11,12 +11,12 @@ local PRIZE_LIST = {
   {
     name = "LuckyCat",
     state = "Lucky_Cat",
-    price = 1
+    price = 20
   },
   {
     name = "TinMan",
     state = "Tin_Man",
-    price = 1
+    price = 40
   },
   {
     id = "WizardDog",
