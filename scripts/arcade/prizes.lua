@@ -2,6 +2,9 @@ local PlayerSaveData = require("scripts/arcade/player_data")
 local Prizes = require("scripts/arcade/prize_data")
 local HashedList = require("scripts/arcade/hashed_list")
 
+local PRIZE_TEXTURE_PATH = "/server/assets/bots/prizes.png"
+local PRIZE_ANIM_PATH = "/server/assets/bots/prizes.animation"
+
 -- the server runs at 20 ticks per second
 local PRIZE_DISPLAY_COOLDOWN = 15
 
@@ -75,8 +78,8 @@ local function spawn_prize_bot(data)
   data.prize_bot = Net.create_bot({
     area_id = Net.get_player_area(data.id),
     warp_in = false,
-    texture_path = "/server/assets/bots/prizes.png",
-    animation_path = "/server/assets/bots/prizes.animation",
+    texture_path = PRIZE_TEXTURE_PATH,
+    animation_path = PRIZE_ANIM_PATH,
     animation = "DEFAULT",
     x = x + offset[1],
     y = y + offset[2],
@@ -265,7 +268,12 @@ Net:on("object_interaction", function(event)
         return
       end
 
-      Net.message_player(player_id, "A prize counter novelty.")
+      Net.message_player(
+        player_id,
+        "A prize counter novelty.",
+        PRIZE_TEXTURE_PATH,
+        "/server/assets/prize_previews/" .. prize.state .. ".animation"
+      )
     end)
 
     events:on("shop_leave", function()

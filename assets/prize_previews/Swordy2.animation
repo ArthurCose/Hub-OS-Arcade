@@ -1,0 +1,5 @@
+anim IDLE
+frame x=74 w=37 h=41 originx=-1 originy=-4 dur=0.1
+frame x=36 y=41 w=36 h=42 originx=-1 originy=-3 dur=0.1
+frame x=35 y=83 w=35 h=41 originx=-1 originy=-4 dur=0.1
+frame x=36 y=41 w=36 h=42 originx=-1 originy=-3 dur=0.1

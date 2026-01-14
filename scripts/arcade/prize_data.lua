@@ -36,13 +36,13 @@ local PRIZE_LIST = {
   },
   {
     name = "TeddyBear",
-    state = "TeddyBear",
+    state = "Teddy_Bear",
     price = 100
   },
   {
     id = "BunnyBear",
     name = "BunnBear",
-    state = "BunnyBear",
+    state = "Bunny_Bear",
     price = 100
   },
   {
