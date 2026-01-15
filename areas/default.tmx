@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="isometric" renderorder="right-down" compressionlevel="0" width="20" height="16" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="184">
+<map version="1.8" tiledversion="1.8.2" orientation="isometric" renderorder="right-down" compressionlevel="0" width="20" height="16" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="187">
  <properties>
   <property name="Background Animation" value="/server/assets/anime.animation"/>
   <property name="Background Texture" value="/server/assets/anime.png"/>
@@ -19,6 +19,7 @@
  <tileset firstgid="89" source="../assets/tiles/portal.tsx"/>
  <tileset firstgid="98" source="../assets/tiles/door.tsx"/>
  <tileset firstgid="100" source="../assets/tiles/free_for_all.tsx"/>
+ <tileset firstgid="109" source="../assets/tiles/bug_frag.tsx"/>
  <layer id="3" name="Layer 0" width="20" height="16">
   <data encoding="csv">
 0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,0,
@@ -33,8 +34,8 @@
 52,10,27,14,20,10,27,14,20,10,27,14,20,10,12,13,10,11,57,0,
 52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,19,16,17,57,0,
 52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,24,25,22,23,57,0,
-52,28,34,35,36,28,34,35,36,28,34,35,36,28,30,58,56,56,0,0,
-52,10,40,41,42,10,40,41,42,10,40,41,42,10,12,57,0,0,0,0,
+52,28,34,35,36,28,1,2,3,28,1,2,3,28,30,58,56,56,0,0,
+52,10,40,41,42,10,7,8,9,10,7,8,9,10,12,57,0,0,0,0,
 52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,57,0,0,0,0,
 0,54,56,56,56,56,56,56,56,56,56,56,56,56,56,0,0,0,0,0
 </data>
@@ -98,16 +99,14 @@
   </object>
   <object id="164" name="Arena" x="192" y="384" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/assets/downloaded_mods/dev.konstinople.encounter.Tennis.zip"/>
+    <property name="Encounter" value="/server/mods/evil"/>
     <property name="Launch Direction" value="Up"/>
-    <property name="PVE" type="bool" value="true"/>
    </properties>
   </object>
   <object id="165" name="Arena" x="320" y="384" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/assets/downloaded_mods/dev.konstinople.encounter.Tennis.zip"/>
+    <property name="Encounter" value="/server/mods/randomized"/>
     <property name="Launch Direction" value="Up"/>
-    <property name="PVE" type="bool" value="true"/>
    </properties>
   </object>
   <object id="166" name="Arena" x="320" y="224" width="96" height="64">
@@ -136,7 +135,7 @@
   </object>
   <object id="170" name="Arena" x="192" y="64" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/mods/randomized"/>
+    <property name="Encounter" value="/server/mods/evil"/>
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
@@ -189,5 +188,7 @@
   <object id="183" type="Shop" x="511.5" y="134.5">
    <point/>
   </object>
+  <object id="184" gid="109" x="236.5" y="411.5" width="24" height="34"/>
+  <object id="186" gid="109" x="236" y="92" width="24" height="34"/>
  </objectgroup>
 </map>

@@ -1,0 +1,18 @@
+[package]
+category = "status"
+id = "dev.konstinople.status.arcade_bug"
+name = "Arcade Bug"
+flag_name = "ArcadeBug"
+durations = [1]
+
+[dependencies]
+augments = [
+  "BattleNetwork4.Bugs.ForwardMovement",
+  "BattleNetwork4.Bugs.BackwardMovement",
+  "BattleNetwork6.Bugs.BattleHPBug",
+  "BattleNetwork6.Bugs.BusterBug",
+  "BattleNetwork6.Bugs.BusterJam",
+  "BattleNetwork6.Bugs.EmotionBug",
+  "BattleNetwork6.Bugs.PanelBug",
+  "BattleNetwork6.Bugs.WarpStep",
+]
