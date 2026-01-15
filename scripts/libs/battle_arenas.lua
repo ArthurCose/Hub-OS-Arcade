@@ -214,7 +214,7 @@ function BattleArena:try_reset()
 
     for _, team_id in ipairs(self.required_teams) do
       local team_players = self.teams[team_id]
-      if team_players and #team_players > 0 then
+      if team_players and #team_players >= self.min_players then
         should_reset = false
         break
       end
@@ -222,6 +222,7 @@ function BattleArena:try_reset()
   else
     -- reset if we can't start a battle
     should_reset = false
+    local total_players = 0
 
     for _, team_id in ipairs(self.required_teams) do
       local team_players = self.teams[team_id]
@@ -229,6 +230,12 @@ function BattleArena:try_reset()
         should_reset = true
         break
       end
+
+      total_players = total_players + #team_players
+    end
+
+    if total_players < self.min_players then
+      should_reset = true
     end
   end
 
