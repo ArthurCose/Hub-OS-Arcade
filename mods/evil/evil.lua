@@ -28,6 +28,7 @@ local function try_spawn_bug_frag()
   local bug_frag = Obstacle.new(Team.Other)
   bug_frag:set_health(50)
   bug_frag:enable_hitbox(false)
+  bug_frag:set_owner(Team.Other)
 
   local sprite = bug_frag:sprite()
   sprite:set_texture("bug.png")
