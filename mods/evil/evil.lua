@@ -93,8 +93,16 @@ end
 function Lib.init()
   local artifact = Artifact.new(Team.Other)
 
+  local original_element_map = {}
+
   artifact:create_component(Lifetime.Scene).on_update_func = function(self)
     self:eject()
+
+    -- resolve original elements for resolving if a player is using a form
+    Field.find_players(function(player)
+      original_element_map[player:id()] = player:element()
+      return false
+    end)
 
     -- smite players using healing chips
     Field.find_players(function(player)
@@ -131,21 +139,21 @@ function Lib.init()
   local bug_frag_cooldown = math.random(60 * 4, 60 * 12)
 
   artifact:create_component(Lifetime.ActiveBattle).on_update_func = function()
-    -- decross megaman with meteors
+    -- punish crossed players with meteors
     if decross_cooldown > 0 then
       decross_cooldown = decross_cooldown - 1
     else
-      local crossed_megamen = Field.find_players(function(player)
-        return player:name() == "MegaMan" and element_weakness_map[player:element()] ~= nil
+      local crossed_players = Field.find_players(function(player)
+        return player:element() ~= original_element_map[player:id()]
       end)
 
-      if #crossed_megamen > 0 then
-        local target = crossed_megamen[math.random(#crossed_megamen)]
+      if #crossed_players > 0 then
+        local target = crossed_players[math.random(#crossed_players)]
 
         local hit_props = HitProps.new(
           100,
           Hit.Flinch | Hit.Flash | Hit.ArcadeBug,
-          element_weakness_map[target:element()]
+          element_weakness_map[target:element()] or Element.None
         )
 
         Field.spawn(
