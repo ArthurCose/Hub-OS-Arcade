@@ -14,7 +14,7 @@ local element_weakness_map = {
   [Element.Break] = Element.Cursor
 }
 
-local function try_spawn_bug_frag()
+local function try_spawn_bug_frag(owner)
   local tiles = Field.find_tiles(function(tile)
     return tile:is_walkable()
   end)
@@ -28,7 +28,7 @@ local function try_spawn_bug_frag()
   local bug_frag = Obstacle.new(Team.Other)
   bug_frag:set_health(50)
   bug_frag:enable_hitbox(false)
-  bug_frag:set_owner(Team.Other)
+  bug_frag:set_owner(owner)
 
   local sprite = bug_frag:sprite()
   sprite:set_texture("bug.png")
@@ -91,7 +91,7 @@ local function try_spawn_bug_frag()
 end
 
 function Lib.init()
-  local artifact = Artifact.new()
+  local artifact = Artifact.new(Team.Other)
 
   artifact:create_component(Lifetime.Scene).on_update_func = function(self)
     self:eject()
@@ -163,7 +163,7 @@ function Lib.init()
     else
       bug_frag_cooldown = math.random(60 * 10, 60 * 20)
 
-      try_spawn_bug_frag()
+      try_spawn_bug_frag(artifact)
     end
   end
 
