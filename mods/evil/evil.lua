@@ -16,7 +16,7 @@ local element_weakness_map = {
 
 local function try_spawn_bug_frag(owner)
   local tiles = Field.find_tiles(function(tile)
-    return tile:is_walkable()
+    return tile:is_walkable() and not tile:is_reserved()
   end)
 
   local spawn_tile = tiles[math.random(#tiles)]
