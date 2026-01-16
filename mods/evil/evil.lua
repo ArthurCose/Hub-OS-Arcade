@@ -111,14 +111,14 @@ function Lib.init()
         :require_card_recover(Compare.GT, 0)
         :intercept_action(function(action)
           local hit_props = HitProps.new(
-            250,
+            500,
             Hit.PierceGuard | Hit.PierceInvis | Hit.Flinch | Hit.Flash | Hit.ArcadeBug,
             Element.Break,
             Element.Cursor
           )
 
           local explosion_hit_props = HitProps.new(
-            100,
+            150,
             Hit.Flinch | Hit.Flash | Hit.ArcadeBug,
             Element.None
           )
