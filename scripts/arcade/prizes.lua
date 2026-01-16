@@ -147,24 +147,6 @@ Net:on("tick", function(event)
   end
 end)
 
-Net:on("battle_results", function(event)
-  if event.ran or event.turns <= 1 then
-    return
-  end
-
-  local reward = 1
-
-  if event.won then
-    reward = reward + 1
-  end
-
-  PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
-    save_data.money = save_data.money + reward
-    save_data:save(event.player_id)
-    Net.set_player_money(event.player_id, save_data.money)
-  end)
-end)
-
 local SHOP_MUG_TEXTURE = "/server/assets/bots/staff_mug.png"
 local SHOP_MUG_ANIM_PATH = "/server/assets/bots/staff_mug.animation"
 

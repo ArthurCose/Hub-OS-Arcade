@@ -64,7 +64,7 @@ end
 
 ---@class BattleArena
 ---@field area_id string
----@field event_emitter Net.EventEmitter "battle_start" - called just before initiating netplay, "eject_player" { player_id, x, y, z, team_range }
+---@field event_emitter Net.EventEmitter "battle_start" - called just before initiating netplay, "eject_player" { player_id, x, y, z, team_range }, "battle_results" [battle_results](https://docs.hubos.dev/server/lua-api/events#battle_results).
 ---@field detection_range BattleArena.Range
 ---@field team_ranges BattleArena.TeamRange[]
 ---@field teams table<string, Net.ActorId[]>
@@ -629,17 +629,17 @@ end)
 Net:on("battle_results", function(event)
   local tracked_player = tracked_players[event.player_id]
 
-  if not tracked_player or not tracked_player.arena then
+  if not tracked_player then
     return
   end
 
   local arena = tracked_player.arena
 
-  Async.sleep(0.5).and_then(function()
-    if not arena then
-      return
-    end
+  if not arena then
+    return
+  end
 
+  Async.sleep(0.5).and_then(function()
     eject_player(arena, event.player_id, tracked_player.x, tracked_player.y, tracked_player.z)
 
     if arena.locked_players[event.player_id] then
@@ -647,6 +647,8 @@ Net:on("battle_results", function(event)
       arena.locked_players[tracked_player.id] = nil
     end
   end)
+
+  arena.event_emitter:emit("battle_results", event)
 end)
 
 

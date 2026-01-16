@@ -1,4 +1,5 @@
 local BattleArenas = require("scripts/libs/battle_arenas")
+local PlayerSaveData = require("scripts/arcade/player_data")
 
 local LAUNCH_DIRS = { "Up", "Down" }
 local area_id = "default"
@@ -120,6 +121,26 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
           duration = duration
         }
       })
+    end)
+
+    local reward_min_turns = tonumber(object.custom_properties["Reward Min Turns"]) or 1
+
+    arena.event_emitter:on("battle_results", function(event)
+      if event.ran or event.turns <= reward_min_turns then
+        return
+      end
+
+      local reward = 1
+
+      if event.won then
+        reward = reward + 1
+      end
+
+      PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
+        save_data.money = save_data.money + reward
+        save_data:save(event.player_id)
+        Net.set_player_money(event.player_id, save_data.money)
+      end)
     end)
   end
 end
