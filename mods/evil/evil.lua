@@ -118,7 +118,7 @@ function Lib.init()
           )
 
           local explosion_hit_props = HitProps.new(
-            150,
+            200,
             Hit.Flinch | Hit.Flash | Hit.ArcadeBug,
             Element.None
           )
