@@ -161,7 +161,7 @@ function Lib.init()
     if bug_frag_cooldown > 0 then
       bug_frag_cooldown = bug_frag_cooldown - 1
     else
-      bug_frag_cooldown = math.random(60 * 12, 60 * 24)
+      bug_frag_cooldown = math.random(60 * 10, 60 * 20)
 
       try_spawn_bug_frag()
     end
