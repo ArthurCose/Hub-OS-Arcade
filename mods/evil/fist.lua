@@ -48,9 +48,8 @@ local function create_fist(team, facing, hit_props, explosion_hit_props)
   Resources.play_audio(METEOR_SFX)
 
   local time = 16
-  spell.on_update_func = function()
-    time = time - 1
 
+  local function update_offset()
     local x_offset = time * -16
 
     if spell:facing() == Direction.Left then
@@ -58,6 +57,16 @@ local function create_fist(team, facing, hit_props, explosion_hit_props)
     end
 
     spell:set_offset(x_offset, time * -16)
+  end
+
+  spell.on_update_func = function()
+    if TurnGauge.frozen() then
+      return
+    end
+
+    time = time - 1
+
+    update_offset()
 
     if time >= 0 then
       return
