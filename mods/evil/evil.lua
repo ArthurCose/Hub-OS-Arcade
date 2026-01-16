@@ -42,7 +42,13 @@ local function try_spawn_bug_frag(owner)
     return tile:is_walkable() and not tile:is_reserved()
   end
 
+  local delete = function()
+    bug_frag:delete()
+  end
+
   bug_frag:add_aux_prop(AuxProp.new():declare_immunity(~Hit.Drag))
+  bug_frag:add_aux_prop(AuxProp.new():require_hit_element(Element.Break):with_callback(delete))
+  bug_frag:add_aux_prop(AuxProp.new():require_hit_flags(Hit.PierceGuard):with_callback(delete))
 
   local i = 0
   bug_frag.on_update_func = function()
