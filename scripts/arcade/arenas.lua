@@ -124,6 +124,7 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
     end)
 
     local reward_min_turns = tonumber(object.custom_properties["Reward Min Turns"]) or 1
+    local custom_bonus = object.custom_properties["Custom Bonus"] == "true"
 
     arena.event_emitter:on("battle_results", function(event)
       if event.ran or event.turns <= reward_min_turns then
@@ -132,7 +133,7 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
 
       local reward = 1
 
-      if event.won then
+      if not custom_bonus and event.won then
         reward = reward + 1
       end
 
@@ -144,3 +145,18 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
     end)
   end
 end
+
+Net:on("battle_message", function(event)
+  -- reward 1z for each defeated boss
+  if type(event.data) ~= "table" or event.data.type ~= "Defeated Boss" then
+    return
+  end
+
+  print(event.player_id, event.data)
+
+  PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
+    save_data.money = save_data.money + 1
+    save_data:save(event.player_id)
+    Net.set_player_money(event.player_id, save_data.money)
+  end)
+end)
