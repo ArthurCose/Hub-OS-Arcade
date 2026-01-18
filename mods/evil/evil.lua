@@ -141,6 +141,7 @@ function Lib.init()
     end)
   end
 
+  local meteors_spawned = 0
   local decross_cooldown = 0
   local bug_frag_cooldown = math.random(60 * 4, 60 * 12)
 
@@ -167,7 +168,14 @@ function Lib.init()
           target:current_tile()
         )
 
-        decross_cooldown = 60
+        meteors_spawned = meteors_spawned + 1
+
+        if meteors_spawned == 3 then
+          decross_cooldown = 60 * 5
+          meteors_spawned = 0
+        else
+          decross_cooldown = 30
+        end
       end
     end
 
