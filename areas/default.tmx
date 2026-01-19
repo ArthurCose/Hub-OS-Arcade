@@ -119,7 +119,7 @@
   </object>
   <object id="167" name="Arena" x="192" y="224" width="96" height="64">
    <properties>
-    <property name="Custom Bonus" type="bool" value="true"/>
+    <property name="Custom Reward" type="bool" value="true"/>
     <property name="Encounter" value="/server/assets/downloaded_mods/dev.konstinople.encounter.final_destination_multiman.zip"/>
     <property name="PVE" type="bool" value="true"/>
     <property name="Reward Min Turns" type="int" value="2"/>

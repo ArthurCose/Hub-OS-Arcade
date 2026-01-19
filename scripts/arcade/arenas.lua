@@ -125,34 +125,43 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
 
     local reward_min_turns = tonumber(object.custom_properties["Reward Min Turns"]) or 1
     local custom_bonus = object.custom_properties["Custom Bonus"] == "true"
+    local custom_reward = object.custom_properties["Custom Reward"] == "true"
 
-    arena.event_emitter:on("battle_results", function(event)
-      if event.ran or event.turns <= reward_min_turns then
-        return
-      end
+    if not custom_reward then
+      arena.event_emitter:on("battle_results", function(event)
+        if event.ran or event.turns <= reward_min_turns then
+          return
+        end
 
-      local reward = 1
+        local reward = 1
 
-      if not custom_bonus and event.won then
-        reward = reward + 1
-      end
+        if not custom_bonus and event.won then
+          reward = reward + 1
+        end
 
-      PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
-        save_data.money = save_data.money + reward
-        save_data:save(event.player_id)
-        Net.set_player_money(event.player_id, save_data.money)
+        PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
+          save_data.money = save_data.money + reward
+          save_data:save(event.player_id)
+          Net.set_player_money(event.player_id, save_data.money)
+        end)
       end)
-    end)
+    end
   end
 end
 
 Net:on("battle_message", function(event)
   -- reward 1z for each defeated boss
-  if type(event.data) ~= "table" or event.data.type ~= "Defeated Boss" then
+  if type(event.data) ~= "table" then
     return
   end
 
-  print(event.player_id, event.data)
+  if event.data.type == "Defeated Boss" and not event.data.alive then
+    -- you can only receive zenny for defeating a multiman boss if you were alive for it
+    return
+  elseif event.data.type ~= "Reached First Boss" then
+    -- the only other signal we reward is reaching the first multiman boss
+    return
+  end
 
   PlayerSaveData.fetch(event.player_id).and_then(function(save_data)
     save_data.money = save_data.money + 1
