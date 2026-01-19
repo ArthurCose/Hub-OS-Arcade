@@ -1,3 +1,7 @@
 [packages]
-id_blacklist = ["BattleNetwork3.Program02.BreakBuster"]
+id_blacklist = [
+  "BattleNetwork3.Program02.BreakBuster",
+  "dev.GladeWoodsgrove.OmniCust",
+  "dev.GladeWoodsgrove.SwitchDrives.DEBUG_GAUGE"
+]
 tag_blacklist = ["OFFLINE_ONLY"]
