@@ -56,7 +56,6 @@ function encounter_init(encounter, data)
 
   local red_attempts = 0
   local blue_attempts = 0
-  local spectating = false
 
   for_players_in_teams(encounter, data.teams, function(i, team_name)
     if team_name == "red" or team_name == "blue" then
@@ -108,10 +107,6 @@ function encounter_init(encounter, data)
       end
     else
       encounter:mark_spectator(i)
-
-      if Resources.is_local(i) then
-        spectating = true
-      end
     end
   end)
 
@@ -160,16 +155,10 @@ function encounter_init(encounter, data)
       return false
     end)
 
-    if spectating then
-      if player_count <= 1 then
-        encounter:lose()
-      end
-    else
-      if not has_local then
-        encounter:lose()
-      elseif player_count == 1 then
-        encounter:win()
-      end
+    if has_local and player_count == 1 then
+      encounter:win()
+    elseif player_count <= 1 then
+      encounter:lose()
     end
 
     if player_count == 0 then
