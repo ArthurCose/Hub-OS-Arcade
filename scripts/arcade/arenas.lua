@@ -155,9 +155,11 @@ Net:on("battle_message", function(event)
     return
   end
 
-  if event.data.type == "Defeated Boss" and not event.data.alive then
-    -- you can only receive zenny for defeating a multiman boss if you were alive for it
-    return
+  if event.data.type == "Defeated Boss" then
+    if not event.data.alive then
+      -- you can only receive zenny for defeating a multiman boss if you were alive for it
+      return
+    end
   elseif event.data.type ~= "Reached First Boss" then
     -- the only other signal we reward is reaching the first multiman boss
     return
