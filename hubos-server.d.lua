@@ -2,6 +2,9 @@
 -- https://luals.github.io/wiki/annotations/
 ---@diagnostic disable: missing-return, unused-local
 
+--- Similar to print, but for errors.
+function printerr(...) end
+
 ---@class Net.ActorId
 
 ---@class Net.SpriteId
@@ -12,6 +15,7 @@
 Net.EventEmitter = {}
 
 ---@class Net.Promise<T>: { and_then: fun(callback: fun(value: T)) }
+---@class Net.Promise: { and_then: fun(callback: fun()) }
 
 ---@class Net.Position
 ---@field x number
@@ -72,6 +76,7 @@ Net.EventEmitter = {}
 ---@field texture_path? string
 ---@field animation_path? string
 ---@field animation? string
+---@field loop_animation? string
 ---@field x? number
 ---@field y? number
 ---@field z? number
@@ -147,6 +152,7 @@ Net.EventEmitter = {}
 ---@field texture_path string
 ---@field animation_path? string
 ---@field animation? string Animation state, this state will be looped.
+---@field loop_animation? boolean
 
 ---@class Net.TextSpriteOptions
 ---@field player_id? Net.ActorId Restricts visibility to this specific player if set.
@@ -203,14 +209,10 @@ Net.EventEmitter = {}
 ---@field player_id Net.ActorId
 ---@field won boolean
 ---@field health number
----@field score number
 ---@field time number
 ---@field ran boolean
 ---@field emotion string
 ---@field turns number
----@field allies { name: string, health: number }[]
----@field enemies { name: string, health: number }[]
----@field neutral { name: string, health: number }[]
 
 ---@class Net.RequestOptions
 ---@field method? string
@@ -941,7 +943,7 @@ function Net.animate_sprite(sprite_id, state_name, loop) end
 
 --- Deletes the the sprite.
 ---@param sprite_id Net.SpriteId
-function Net.delete_sprite(sprite_id) end
+function Net.remove_sprite(sprite_id) end
 
 --- - `color`: [Net.Color](https://docs.hubos.dev/server/lua-api/widgets#netcolor)
 ---
@@ -1406,9 +1408,9 @@ function Net.give_player_card(player_id, package_id, code, amount) end
 --- Returns the amount of matching cards the player owns.
 ---@param player_id Net.ActorId
 ---@param package_id string
----@param color Net.Color
+---@param color_name string
 ---@return number
-function Net.get_player_block_count(player_id, package_id, color) end
+function Net.get_player_block_count(player_id, package_id, color_name) end
 
 --- Adds blocks to the player's pack.
 ---
@@ -1417,9 +1419,9 @@ function Net.get_player_block_count(player_id, package_id, color) end
 --- Accepts negative amount.
 ---@param player_id Net.ActorId
 ---@param package_id string
----@param color Net.Color
+---@param color_name string
 ---@param amount? number
-function Net.give_player_block(player_id, package_id, color, amount) end
+function Net.give_player_block(player_id, package_id, color_name, amount) end
 
 --- Returns true if the player can use the playable character's abilities.
 ---@param player_id Net.ActorId
@@ -1769,6 +1771,13 @@ function Async.await_all(promises) end
 ---@return Net.Promise<T>
 function Async.create_scope(callback) end
 
+--- Similar to [`Async.create_scope<T>()`](https://docs.hubos.dev/server/lua-api/async#asynccreate_scopetfunction-t)
+---
+--- Returns a promise.
+---@param callback fun()
+---@return Net.Promise<nil>
+function Async.create_scope(callback) end
+
 --- Returns a function that returns a promise, which resolves to the return value.
 ---
 --- ```lua
@@ -1782,8 +1791,15 @@ function Async.create_scope(callback) end
 --- say_after("world", 10).and_then(print) -- says "world" after 10s
 --- ```
 ---@generic T
----@param callback fun(...): T|nil
+---@param callback fun(...): T
 ---@return fun(...): Net.Promise<T>
+function Async.create_function(callback) end
+
+--- Similar to [`Async.create_function<T>()`](https://docs.hubos.dev/server/lua-api/async#asynccreate_functiontfunction-t)
+---
+--- Returns a promise.
+---@param callback fun()
+---@return Net.Promise<nil>
 function Async.create_function(callback) end
 
 --- - `request_options`: [Net.RequestOptions](https://docs.hubos.dev/server/lua-api/async#netrequestoptions)
