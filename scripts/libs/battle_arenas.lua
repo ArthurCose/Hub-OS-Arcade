@@ -209,12 +209,19 @@ function BattleArena:try_reset()
   local should_reset
 
   if self.fight_active or self.pve then
-    -- reset if there are no players in the arena
+    -- reset if we can't start a battle
+    local min_players = self.min_players
+
+    if self.fight_active then
+      -- reset if there are no players in the arena
+      min_players = 1
+    end
+
     should_reset = true
 
     for _, team_id in ipairs(self.required_teams) do
       local team_players = self.teams[team_id]
-      if team_players and #team_players >= self.min_players then
+      if team_players and #team_players >= min_players then
         should_reset = false
         break
       end
