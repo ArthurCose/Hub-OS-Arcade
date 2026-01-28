@@ -79,7 +79,7 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
       required_teams = { "red", "blue" }
     })
 
-    arena.event_emitter:on("eject_player", function(event)
+    arena.events:on("eject_player", function(event)
       if event.team_range.team == "spectators" then
         return
       end
@@ -128,7 +128,7 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
     local custom_reward = object.custom_properties["Custom Reward"] == "true"
 
     if not custom_reward then
-      arena.event_emitter:on("battle_results", function(event)
+      arena.events:on("battle_results", function(event)
         if event.ran or event.turns <= reward_min_turns then
           return
         end

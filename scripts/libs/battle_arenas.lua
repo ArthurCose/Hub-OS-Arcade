@@ -64,7 +64,7 @@ end
 
 ---@class BattleArena
 ---@field area_id string
----@field event_emitter Net.EventEmitter "battle_start" - called just before initiating netplay, "eject_player" { player_id, x, y, z, team_range }, "battle_results" [battle_results](https://docs.hubos.dev/server/lua-api/events#battle_results).
+---@field events Net.EventEmitter "battle_start" - called just before initiating netplay, "eject_player" { player_id, x, y, z, team_range }, "battle_results" [battle_results](https://docs.hubos.dev/server/lua-api/events#battle_results).
 ---@field detection_range BattleArena.Range
 ---@field team_ranges BattleArena.TeamRange[]
 ---@field teams table<string, Net.ActorId[]>
@@ -182,7 +182,7 @@ function Lib.create_arena(area_id, options)
     pve = options.pve,
     min_players = options.min_players or 1,
     detection_range = detection_range,
-    event_emitter = Net.EventEmitter.new(),
+    events = Net.EventEmitter.new(),
     countdown_bots = countdown_bots,
   }
   setmetatable(arena, BattleArena)
@@ -272,7 +272,7 @@ end
 local function start_encounter(self)
   local player_ids = {}
 
-  self.event_emitter:emit("battle_start")
+  self.events:emit("battle_start")
 
   local team_data = {}
 
@@ -435,7 +435,7 @@ local function eject_player(arena, player_id, x, y, z)
   local team_range = resolve_team_range(arena, x, y, z)
 
   if team_range then
-    arena.event_emitter:emit("eject_player", {
+    arena.events:emit("eject_player", {
       player_id = player_id,
       team_range = team_range,
       x = x,
@@ -655,7 +655,7 @@ Net:on("battle_results", function(event)
     end
   end)
 
-  arena.event_emitter:emit("battle_results", event)
+  arena.events:emit("battle_results", event)
 end)
 
 
