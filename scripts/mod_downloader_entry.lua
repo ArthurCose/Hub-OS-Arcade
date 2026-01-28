@@ -2,10 +2,10 @@ local ModDownloader = require("scripts/libs/mod_downloader")
 
 local package_ids = {
   -- chips
-  "BattleNetwork6.Class01.Standard.164",  -- panel grab
-  "BattleNetwork5.Class01.Standard.037",  -- crakbom
-  "BattleNetwork6.Class01.Standard.074",  -- longblde
-  "BattleNetwork6.Class01.Standard.177",  -- buster up
+  "BattleNetwork6.Class01.Standard.164", -- panel grab
+  "BattleNetwork5.Class01.Standard.037", -- crakbom
+  "BattleNetwork6.Class01.Standard.074", -- longblde
+  "BattleNetwork6.Class01.Standard.177", -- buster up
   -- encounters
   "dev.konstinople.encounter.Tennis",
   "dev.konstinople.encounter.final_destination_multiman",
@@ -27,6 +27,7 @@ local package_ids = {
   "BattleNetwork4.TournamentIntro",
   "BattleNetwork6.Libraries.PanelGrab",
   "BattleNetwork6.Libraries.CubesAndBoulders",
+  "dev.konstinople.library.sliding_obstacle",
   "dev.konstinople.library.sword",
   "dev.konstinople.library.bomb",
   "dev.konstinople.library.iterator",
