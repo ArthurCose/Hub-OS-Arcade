@@ -87,7 +87,7 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
       ---@type Net.ActorId
       local player_id = event.player_id
       ---@type number, number
-      local x, z = event.x, event.z
+      local x, z = event.x, event.team_range.z
 
       local personal_launch_dir = launch_direction or LAUNCH_DIRS[math.random(#LAUNCH_DIRS)]
       local target_y
