@@ -32,6 +32,7 @@ local package_ids = {
   "dev.konstinople.library.bomb",
   "dev.konstinople.library.iterator",
   "dev.konstinople.library.ai",
+  "dev.konstinople.library.turn_based",
   "dev.konstinople.library.spectator_fun",
   "dev.konstinople.library.ssb",
 
