@@ -127,8 +127,8 @@ function Lib.randomize_field()
 
       set_state(4, 1, TileState.Cracked)
       set_state(6, 1, TileState.Cracked)
-      set_state(4, 6, TileState.Cracked)
-      set_state(6, 6, TileState.Cracked)
+      set_state(4, 3, TileState.Cracked)
+      set_state(6, 3, TileState.Cracked)
     end,
     -- back row cracked
     function()
