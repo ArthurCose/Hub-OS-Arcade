@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="isometric" renderorder="right-down" compressionlevel="0" width="20" height="16" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="187">
+<map version="1.10" tiledversion="1.12.0" orientation="isometric" renderorder="right-down" compressionlevel="0" width="22" height="18" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="187">
  <properties>
   <property name="Background Animation" value="/server/assets/anime.animation"/>
   <property name="Background Texture" value="/server/assets/anime.png"/>
@@ -20,104 +20,105 @@
  <tileset firstgid="98" source="../assets/tiles/door.tsx"/>
  <tileset firstgid="100" source="../assets/tiles/free_for_all.tsx"/>
  <tileset firstgid="109" source="../assets/tiles/bug_frag.tsx"/>
- <layer id="3" name="Layer 0" width="20" height="16">
+ <layer id="3" name="Layer 0" width="22" height="18">
   <data encoding="csv">
-0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,0,
-52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,0,0,0,0,0,
-52,16,1,2,3,16,1,2,3,16,1,2,3,16,18,0,0,0,0,0,
-52,22,7,8,9,22,7,8,9,22,7,8,9,22,24,22,23,24,61,0,
-52,28,27,14,20,28,27,14,20,28,27,14,20,28,30,31,28,29,57,0,
-52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,13,10,11,57,0,
-52,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,18,19,16,17,57,0,
-52,22,43,44,45,22,43,44,45,22,43,101,45,22,24,25,22,23,57,0,
-52,28,49,50,51,28,49,50,51,28,49,107,51,28,30,31,28,29,57,0,
-52,10,27,14,20,10,27,14,20,10,27,14,20,10,12,13,10,11,57,0,
-52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,19,16,17,57,0,
-52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,24,25,22,23,57,0,
-52,28,34,35,36,28,1,2,3,28,1,2,3,28,30,58,56,56,0,0,
-52,10,40,41,42,10,7,8,9,10,7,8,9,10,12,57,0,0,0,0,
-52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,57,0,0,0,0,
-0,54,56,56,56,56,56,56,56,56,56,56,56,56,56,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,0,
+0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,0,0,0,0,0,
+0,0,52,16,1,2,3,16,1,2,3,16,1,2,3,16,18,0,0,0,0,0,
+0,0,52,22,7,8,9,22,7,8,9,22,7,8,9,22,24,22,23,24,61,0,
+0,0,52,28,27,14,20,28,27,14,20,28,27,14,20,28,30,31,28,29,57,0,
+0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,13,10,11,57,0,
+0,0,52,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,18,19,16,17,57,0,
+0,0,52,22,34,35,36,22,43,44,45,22,43,101,45,22,24,25,22,23,57,0,
+0,0,52,28,40,41,42,28,49,50,51,28,49,107,51,28,30,31,28,29,57,0,
+0,0,52,10,27,14,20,10,27,14,20,10,27,14,20,10,12,13,10,11,57,0,
+0,0,52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,19,16,17,57,0,
+0,0,52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,24,25,22,23,57,0,
+0,0,52,28,1,2,3,28,1,2,3,28,1,2,3,28,30,58,56,56,0,0,
+0,0,52,10,7,8,9,10,7,8,9,10,7,8,9,10,12,57,0,0,0,0,
+0,0,52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,57,0,0,0,0,
+0,0,0,54,56,56,56,56,56,56,56,56,56,56,56,56,56,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="4" name="Object Layer 0">
-  <object id="128" gid="64" x="468.5" y="312.5" width="75" height="40"/>
-  <object id="130" gid="65" x="444.5" y="248.5" width="75" height="40"/>
-  <object id="135" gid="64" x="460.5" y="184.5" width="75" height="40"/>
-  <object id="138" name="Prize Counter" gid="76" x="479" y="159" width="192" height="200"/>
-  <object id="134" type="Server Warp" gid="72" x="504.5" y="240.5" width="92" height="51">
+  <object id="128" gid="64" x="532.5" y="376.5" width="75" height="40"/>
+  <object id="130" gid="65" x="508.5" y="312.5" width="75" height="40"/>
+  <object id="135" gid="64" x="524.5" y="248.5" width="75" height="40"/>
+  <object id="138" name="Prize Counter" gid="76" x="543" y="223" width="192" height="200"/>
+  <object id="134" type="Server Warp" gid="72" x="568.5" y="304.5" width="92" height="51">
    <properties>
     <property name="Address" value="hubos.konstinople.dev"/>
     <property name="Direction" value="Up Left"/>
    </properties>
   </object>
-  <object id="140" gid="77" x="0" y="344" width="28" height="48">
+  <object id="140" gid="77" x="64" y="408" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="182"/>
    </properties>
   </object>
-  <object id="142" gid="79" x="0" y="176" width="28" height="48">
+  <object id="142" gid="79" x="64" y="240" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="177"/>
    </properties>
   </object>
-  <object id="143" gid="78" x="0" y="264" width="28" height="48">
+  <object id="143" gid="78" x="64" y="328" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="179"/>
    </properties>
   </object>
-  <object id="144" gid="80" x="0" y="96" width="28" height="48">
+  <object id="144" gid="80" x="64" y="160" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="178"/>
    </properties>
   </object>
-  <object id="145" gid="2147483729" x="176" y="0" width="28" height="48"/>
-  <object id="146" gid="2147483730" x="240" y="0" width="28" height="48"/>
-  <object id="147" gid="2147483731" x="67" y="-1" width="28" height="48"/>
-  <object id="148" gid="2147483732" x="336" y="0" width="28" height="48"/>
-  <object id="149" gid="2147483733" x="96" y="0" width="28" height="48"/>
-  <object id="152" gid="2147483734" x="344" y="0" width="28" height="48"/>
-  <object id="154" name="Spawn" x="528.5" y="264.5">
+  <object id="145" gid="2147483729" x="240" y="64" width="28" height="48"/>
+  <object id="146" gid="2147483730" x="304" y="64" width="28" height="48"/>
+  <object id="147" gid="2147483731" x="131" y="63" width="28" height="48"/>
+  <object id="148" gid="2147483732" x="400" y="64" width="28" height="48"/>
+  <object id="149" gid="2147483733" x="160" y="64" width="28" height="48"/>
+  <object id="152" gid="2147483734" x="408" y="64" width="28" height="48"/>
+  <object id="154" name="Spawn" x="592.5" y="328.5">
    <properties>
     <property name="Direction" value="Up Left"/>
    </properties>
    <point/>
   </object>
-  <object id="159" gid="92" x="243" y="256" width="36" height="48"/>
-  <object id="160" name="Bookmark Bot" type="Bookmark" x="467.5" y="400.5">
+  <object id="159" gid="92" x="307" y="320" width="36" height="48"/>
+  <object id="160" name="Bookmark Bot" type="Bookmark" x="531.5" y="464.5">
    <properties>
     <property name="Direction" value="Up Left"/>
    </properties>
    <point/>
   </object>
-  <object id="163" name="Arena" x="64" y="384" width="96" height="64">
+  <object id="163" name="Arena" x="128" y="288" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/assets/downloaded_mods/dev.konstinople.encounter.Tennis.zip"/>
-    <property name="Launch Direction" value="Up"/>
     <property name="PVE" type="bool" value="true"/>
     <property name="Reward Min Turns" type="int" value="3"/>
    </properties>
   </object>
-  <object id="164" name="Arena" x="192" y="384" width="96" height="64">
+  <object id="164" name="Arena" x="256" y="448" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/evil"/>
     <property name="Launch Direction" value="Up"/>
    </properties>
   </object>
-  <object id="165" name="Arena" x="320" y="384" width="96" height="64">
+  <object id="165" name="Arena" x="384" y="448" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/randomized"/>
     <property name="Launch Direction" value="Up"/>
    </properties>
   </object>
-  <object id="166" name="Arena" x="320" y="224" width="96" height="64">
+  <object id="166" name="Arena" x="384" y="288" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/neutral_free_for_all"/>
     <property name="Min Players" type="int" value="2"/>
     <property name="PVE" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="167" name="Arena" x="192" y="224" width="96" height="64">
+  <object id="167" name="Arena" x="256" y="288" width="96" height="64">
    <properties>
     <property name="Custom Reward" type="bool" value="true"/>
     <property name="Encounter" value="/server/assets/downloaded_mods/dev.konstinople.encounter.final_destination_multiman.zip"/>
@@ -125,73 +126,74 @@
     <property name="Reward Min Turns" type="int" value="2"/>
    </properties>
   </object>
-  <object id="168" name="Arena" x="64" y="224" width="96" height="64">
+  <object id="168" name="Arena" x="128" y="448" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/mods/neutral_teams"/>
+    <property name="Encounter" value="/server/mods/randomized"/>
+    <property name="Launch Direction" value="Up"/>
    </properties>
   </object>
-  <object id="169" name="Arena" x="64" y="64" width="96" height="64">
+  <object id="169" name="Arena" x="128" y="128" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/randomized"/>
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
-  <object id="170" name="Arena" x="192" y="64" width="96" height="64">
+  <object id="170" name="Arena" x="256" y="128" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/evil"/>
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
-  <object id="171" name="Arena" x="320" y="64" width="96" height="64">
+  <object id="171" name="Arena" x="384" y="128" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/randomized"/>
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
-  <object id="172" name="Door" gid="98" x="396" y="-28" width="34" height="67">
+  <object id="172" name="Door" gid="98" x="460" y="36" width="34" height="67">
    <properties>
     <property name="On Interact" type="object" value="173"/>
    </properties>
   </object>
-  <object id="173" type="Script Node: Message" x="398" y="-74">
+  <object id="173" type="Script Node: Message" x="462" y="-10">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;Employees Only&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="177" type="Script Node: Message" x="-48" y="152">
+  <object id="177" type="Script Node: Message" x="16" y="216">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;RockMan Tennis&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="178" type="Script Node: Message" x="-48" y="72">
+  <object id="178" type="Script Node: Message" x="16" y="136">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;RollΩ&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="179" type="Script Node: Message" x="-48" y="240">
+  <object id="179" type="Script Node: Message" x="16" y="304">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;ProtoMan&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="182" type="Script Node: Message" x="-56" y="320">
+  <object id="182" type="Script Node: Message" x="8" y="384">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;MegaMan&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="183" type="Shop" x="511.5" y="134.5">
+  <object id="183" type="Shop" x="575.5" y="198.5">
    <point/>
   </object>
-  <object id="184" gid="109" x="236.5" y="411.5" width="24" height="34"/>
-  <object id="186" gid="109" x="236" y="92" width="24" height="34"/>
+  <object id="184" gid="109" x="300.5" y="475.5" width="24" height="34"/>
+  <object id="186" gid="109" x="300" y="156" width="24" height="34"/>
  </objectgroup>
 </map>
