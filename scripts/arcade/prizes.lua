@@ -6,8 +6,16 @@ local PRIZE_TEXTURE_PATH = "/server/assets/bots/prizes.png"
 local PRIZE_ANIM_PATH = "/server/assets/bots/prizes.animation"
 
 ---@param prize Arcade.PrizeData
-function prize_preview_anim_path(prize)
-  return "/server/assets/prize_previews/" .. prize.state .. ".animation"
+local function prize_preview_textbox_options(prize)
+  ---@type Net.TextboxOptions
+  local options = {
+    mug = {
+      texture_path = prize.preview_texture or PRIZE_TEXTURE_PATH,
+      animation_path = prize.preview_animation or ("/server/assets/prize_previews/" .. prize.state .. ".animation")
+    }
+  }
+
+  return options
 end
 
 -- the server runs at 20 ticks per second
@@ -200,16 +208,23 @@ Net:on("object_interaction", function(event)
       local owned = save_data.inventory[prize.id]
 
       if owned and owned > 0 then
-        Net.message_player(
-          player_id,
-          prize.name .. " misses you too!",
-          SHOP_MUG_TEXTURE,
-          SHOP_MUG_ANIM_PATH
-        )
+        if prize.package_id then
+          -- mod
+          Net.refer_package(player_id, prize.package_id)
+        else
+          -- ploshie
+          Net.message_player(
+            player_id,
+            prize.name .. " misses you too!",
+            SHOP_MUG_TEXTURE,
+            SHOP_MUG_ANIM_PATH
+          )
 
-        save_data.active_prize = prize.id
-        save_data:save(player_id)
-        update_prize_bot(data, save_data)
+          save_data.active_prize = prize.id
+          save_data:save(player_id)
+          update_prize_bot(data, save_data)
+        end
+
         return
       end
 
@@ -226,21 +241,11 @@ Net:on("object_interaction", function(event)
 
       Async.question_player(
         player_id, "Redeem " .. prize.name .. "?",
-        PRIZE_TEXTURE_PATH,
-        prize_preview_anim_path(prize)
+        prize_preview_textbox_options(prize)
       ).and_then(function(response)
         if response ~= 1 then
           return
         end
-
-        save_data.money = save_data.money - prize.price
-        save_data.inventory[prize.id] = 1
-        save_data.active_prize = prize.id
-        save_data:save(player_id)
-
-        Net.give_player_item(player_id, prize.id)
-        Net.set_player_money(player_id, save_data.money)
-        update_prize_bot(data, save_data)
 
         Net.update_shop_item(player_id, {
           id = prize.id,
@@ -248,12 +253,31 @@ Net:on("object_interaction", function(event)
           price = 0
         })
 
-        Net.message_player(
-          player_id,
-          "Meet " .. prize.name .. ", congrats!",
-          SHOP_MUG_TEXTURE,
-          SHOP_MUG_ANIM_PATH
-        )
+        save_data.money = save_data.money - prize.price
+        save_data.inventory[prize.id] = 1
+
+        if not prize.package_id then
+          save_data.active_prize = prize.id
+        end
+
+        save_data:save(player_id)
+
+        if prize.package_id then
+          -- share mod
+          Net.refer_package(player_id, prize.package_id)
+        else
+          -- update ploshie
+          Net.give_player_item(player_id, prize.id)
+          Net.set_player_money(player_id, save_data.money)
+          update_prize_bot(data, save_data)
+
+          Net.message_player(
+            player_id,
+            "Meet " .. prize.name .. ", congrats!",
+            SHOP_MUG_TEXTURE,
+            SHOP_MUG_ANIM_PATH
+          )
+        end
       end)
     end)
 
@@ -267,9 +291,8 @@ Net:on("object_interaction", function(event)
 
       Net.message_player(
         player_id,
-        "A prize counter novelty.",
-        PRIZE_TEXTURE_PATH,
-        prize_preview_anim_path(prize)
+        prize.description or "A prize counter novelty.",
+        prize_preview_textbox_options(prize)
       )
     end)
 

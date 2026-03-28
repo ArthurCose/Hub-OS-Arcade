@@ -1,9 +1,14 @@
 local BASE_VIRUS = 200
 local SPECIAL_VIRUS = 500
+local SPECIAL_NAVI = 700
 
 ---@class Arcade.PrizeData
 ---@field id string
 ---@field name string
+---@field description? string
+---@field package_id? string
+---@field preview_texture? string
+---@field preview_animation? string
 ---@field state string
 ---@field price number
 
@@ -160,6 +165,15 @@ local PRIZE_LIST = {
     state = "Scuttle_Omega",
     price = SPECIAL_VIRUS
   },
+  {
+    id = "Hues",
+    name = "Hues",
+    package_id = "dev.konstinople.player.Hues",
+    description = "The legendary VariHero!\n\nWarning: High Difficulty",
+    preview_texture = "/server/assets/prize_previews/Hues.png",
+    preview_animation = "/server/assets/prize_previews/Hues.animation",
+    price = SPECIAL_NAVI
+  },
 }
 
 local PRIZE_MAP = {}
@@ -173,8 +187,8 @@ for _, prize in ipairs(PRIZE_LIST) do
 
   Net.register_item(prize.id, {
     name = prize.name,
-    description = "A prize counter novelty.",
-    consumable = true
+    description = prize.description or "A prize counter novelty.",
+    consumable = not prize.package_id
   })
 end
 
