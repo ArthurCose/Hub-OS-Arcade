@@ -158,9 +158,9 @@ function Lib.init()
         local target = crossed_players[math.random(#crossed_players)]
 
         local hit_props = HitProps.new(
-          100,
-          Hit.Flinch | Hit.Flash | Hit.ArcadeBug,
-          element_weakness_map[target:element()] or Element.None
+          25,
+          Hit.None,
+          Element.None
         )
 
         Field.spawn(

@@ -8,8 +8,8 @@ local ANIM_PATH = "meteor.animation"
 local EXPLOSION_TEXTURE = bn_assets.load_texture("ring_explosion.png")
 local EXPLOSION_ANIM_PATH = bn_assets.fetch_animation_path("ring_explosion.animation")
 
-local function create_impact_explosion(tile, team)
-  local explosion = Spell.new(team)
+local function spawn_explosion(tile)
+  local explosion = Artifact.new()
   explosion:set_texture(EXPLOSION_TEXTURE)
 
   local new_anim = explosion:animation()
@@ -19,7 +19,6 @@ local function create_impact_explosion(tile, team)
   explosion:sprite():set_layer(-2)
 
   explosion.on_spawn_func = function()
-    if tile:can_set_state(TileState.Broken) then tile:set_state(TileState.Broken) else tile:set_state(TileState.Cracked) end
     Field.shake(5, 18)
   end
 
@@ -72,7 +71,7 @@ local function create_dark_meteor(team, facing, hit_props)
 
     if tile:is_walkable() then
       self:attack_tile()
-      create_impact_explosion(tile, self:team())
+      spawn_explosion(tile)
     end
 
     self:erase()
