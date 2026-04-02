@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.0" orientation="isometric" renderorder="right-down" compressionlevel="0" width="22" height="18" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="187">
+<map version="1.10" tiledversion="1.12.1" orientation="isometric" renderorder="right-down" compressionlevel="0" width="22" height="18" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="189">
  <properties>
   <property name="Background Animation" value="/server/assets/anime.animation"/>
   <property name="Background Texture" value="/server/assets/anime.png"/>
@@ -20,6 +20,7 @@
  <tileset firstgid="98" source="../assets/tiles/door.tsx"/>
  <tileset firstgid="100" source="../assets/tiles/free_for_all.tsx"/>
  <tileset firstgid="109" source="../assets/tiles/bug_frag.tsx"/>
+ <tileset firstgid="115" source="../assets/tiles/broken_clock.tsx"/>
  <layer id="3" name="Layer 0" width="22" height="18">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -140,7 +141,7 @@
   </object>
   <object id="170" name="Arena" x="256" y="128" width="96" height="64">
    <properties>
-    <property name="Encounter" value="/server/mods/evil"/>
+    <property name="Encounter" value="/server/mods/defrost"/>
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
@@ -194,6 +195,6 @@
    <point/>
   </object>
   <object id="184" gid="109" x="300.5" y="475.5" width="24" height="34"/>
-  <object id="186" gid="109" x="300" y="156" width="24" height="34"/>
+  <object id="188" gid="115" x="312" y="168" width="20" height="31"/>
  </objectgroup>
 </map>

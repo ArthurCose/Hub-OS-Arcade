@@ -200,9 +200,15 @@ ActionType = {
 
 ---@enum TimeFreezeChainLimit
 TimeFreezeChainLimit = {
-  OnePerTeam = 0,
-  OnePerEntity = 0,
-  Unlimited = 0,
+  Unlimited = {} --[[@as TimeFreezeChainLimit]],
+  PerTeam =
+  ---@param n number
+  ---@return TimeFreezeChainLimit
+      function(n) end,
+  PerEntity =
+  ---@param n number
+  ---@return TimeFreezeChainLimit
+      function(n) end,
 }
 
 ---@enum Shadow
@@ -316,6 +322,8 @@ Input = {
 ---@field intro_func fun(self: Entity): Action|nil
 --- Used to handle movement input, setting this overrides the default handling.
 ---@field movement_func fun(self: Entity, direction: Direction)
+--- Used to generate movement input, setting this overrides the input gathering method.
+---@field movement_input_func fun(self: Entity): Direction?
 --- Will not be called if there's no matching `calculate_card_charge_time_func`
 ---
 --- An [Action](https://docs.hubos.dev/client/lua-api/attack-api/action) or `nil` is expected as a return value.
@@ -362,7 +370,9 @@ Input = {
 ---@field on_battle_start_func fun(self: Entity)
 --- Called when health is 0 or `entity:delete()` is called. `entity:erase()` must be called to truly delete the entity.
 ---
---- This function is pre-set for all entities.
+--- This function is pre-set for all entities, and may be skipped if `entity:erase()` is called.
+---
+--- Use [entity:on_erase()](https://docs.hubos.dev/client/lua-api/entity-api/entity#entityon_erasefunctionentity) if you need a callback that runs in all situations.
 ---@field on_delete_func fun(self: Entity)
 --- Called when an attack using this entity's [context](https://docs.hubos.dev/client/lua-api/attack-api/hit-props#attackcontext) counters another entity.
 ---
@@ -514,6 +524,10 @@ Field = {}
 ---
 --- Used to handle movement input.
 ---@field movement_func fun(self: Augment, direction: Direction)
+--- Overrides [player.movement_input_func](https://docs.hubos.dev/client/lua-api/entity-api/player#playermovement_input_func--functionself-direction).
+---
+--- Used to generate movement input.
+---@field movement_input_func fun(self: Augment): Direction?
 --- Will not be called if there's no matching `calculate_card_charge_time_func`
 ---
 --- An [Action](https://docs.hubos.dev/client/lua-api/attack-api/action) or `nil` is expected as a return value.
@@ -553,6 +567,11 @@ Augment = {}
 ---
 --- Used to handle movement input.
 ---@field movement_func fun(self: PlayerForm)
+--- Overrides [player.movement_input_func](https://docs.hubos.dev/client/lua-api/entity-api/player#playermovement_input_func--functionself-direction) when this form is active.
+--- Also overrides any [Augment](https://docs.hubos.dev/client/lua-api/entity-api/player#augment)'s override.
+---
+--- Used to generate movement input.
+---@field movement_input_func fun(self: PlayerForm): Direction?
 --- Will not be called if there's no matching `calculate_card_charge_time_func`
 ---
 --- An [Action](https://docs.hubos.dev/client/lua-api/attack-api/action) or `nil` is expected as a return value.
@@ -802,6 +821,8 @@ DeckCard = {}
 ---@field status_durations table<Hit, number>
 --- [Hit](https://docs.hubos.dev/client/lua-api/attack-api/hit-props#hit_propsflags), influences generated [HitProps](https://docs.hubos.dev/client/lua-api/attack-api/hit-props)
 ---@field hit_flags Hit | number
+--- Number, used by other mods for conditional behavior, defaults to 0.
+---@field limit number
 --- Any of the values below:
 ---
 --- - `CardClass.Standard`
@@ -974,7 +995,7 @@ function Entity:set_team(team) end
 
 --- Returns a boolean.
 ---
---- Same as `entity:team() == team`
+--- Same as `entity:team() == team and team ~= Team.Other`
 ---@param team Team
 ---@return boolean
 function Entity:is_team(team) end
@@ -1031,8 +1052,16 @@ function Entity:hittable() end
 function Entity:sharing_tile() end
 
 --- Allows other entities to stand on tiles reserved by this entity.
----@param share? boolean
-function Entity:enable_sharing_tile(share) end
+---@param enable? boolean
+function Entity:enable_sharing_tile(enable) end
+
+--- Returns true automatic tile reservation is enabled.
+---@return boolean
+function Entity:auto_reserves() end
+
+--- Controls whether tiles are automatically reserved when this entity changes tiles.
+---@param enable? boolean
+function Entity:set_auto_reserve(enable) end
 
 --- Returns true if negative tile effects should be ignored for this entity.
 ---
@@ -1199,7 +1228,6 @@ function Entity:animation() end
 function Entity:load_animation(path) end
 
 --- - `lifetime` affects when the component's update callback is called.
----
 ---   - `Lifetime.Local` when the entity update callback is called (affected by time freeze and status effects)
 ---   - `Lifetime.ActiveBattle` after every entity has updated and battle is active as long as time is not frozen.
 ---   - `Lifetime.Battle` after every entity has updated and battle is active.
@@ -1241,6 +1269,18 @@ function Entity:start_context(action_type) end
 --- Returns true if the entity has an executing action or pending actions.
 ---@return boolean
 function Entity:has_actions() end
+
+--- Returns true if the entity can queue a time freeze action on this frame to counter an opponent's time freeze action.
+---@return boolean
+function Entity:can_time_freeze_counter() end
+
+--- Returns true if the entity is frozen from time freezing.
+---@return boolean
+function Entity:frozen() end
+
+--- Freezes the entity for time freeze, will unfreeze when time freeze ends.
+---@param bool? boolean
+function Entity:set_frozen(bool) end
 
 --- - `action`: [Action](https://docs.hubos.dev/client/lua-api/attack-api/action)
 ---
@@ -1347,8 +1387,24 @@ function Entity:default_player_delete() end
 function Entity:default_character_delete() end
 
 --- Adds a callback listener for entity deletion.
+---
+--- This callback can be skipped if `entity:erase()` was called before `entity:delete()`
+---
+--- Use [entity:on_erase()](https://docs.hubos.dev/client/lua-api/entity-api/entity#entityon_erasefunctionentity) if you need a callback that runs in all situations.
 ---@param callback fun(entity: Entity)
 function Entity:on_delete(callback) end
+
+--- Removes a callback set by [entity:on_delete()](https://docs.hubos.dev/client/lua-api/entity-api/entity#entityon_deletefunctionentity)
+---@param callback fun(entity: Entity)
+function Entity:remove_on_delete(callback) end
+
+--- Adds a callback listener for entity erasure.
+---@param callback fun(entity: Entity)
+function Entity:on_erase(callback) end
+
+--- Removes a callback set by [entity:on_erase()](https://docs.hubos.dev/client/lua-api/entity-api/entity#entityon_erasefunctionentity)
+---@param callback fun(entity: Entity)
+function Entity:remove_on_erase(callback) end
 
 --- Returns an [Entity](https://docs.hubos.dev/client/lua-api/entity-api/entity)
 ---@return Entity
@@ -1519,7 +1575,7 @@ function Entity:set_remaining_status_time(hit_flag, duration) end
 ---@param callback fun()
 function Entity:register_status_callback(hit_flag, callback) end
 
---- Returns true if status effects that entity processing are applied.
+--- Returns true if status effects that block actions are applied.
 ---
 --- Throws if the Entity doesn't pass [Living.from()](https://docs.hubos.dev/client/lua-api/entity-api/living)
 ---@return boolean
@@ -2331,6 +2387,17 @@ function Character.from_package(package_id, team, rank) end
 ---@return Rank
 function Entity:rank() end
 
+--- Hides the character's rank when displaying names.
+---
+--- Throws if the Entity doesn't pass [Character.from()](https://docs.hubos.dev/client/lua-api/entity-api/character)
+function Entity:hide_rank() end
+
+--- Returns the namespace of the mod used to create the character.
+---
+--- Throws if the Entity doesn't pass [Character.from()](https://docs.hubos.dev/client/lua-api/entity-api/character)
+---@return Namespace
+function Entity:namespace() end
+
 --- Returns a list of [CardProperties](https://docs.hubos.dev/client/lua-api/attack-api/cards#cardproperties), the first card is the next card that can be used.
 ---
 --- Throws if the Entity doesn't pass [Character.from()](https://docs.hubos.dev/client/lua-api/entity-api/character)
@@ -2375,6 +2442,17 @@ function Entity:remove_field_card(index) end
 ---@param index number
 ---@param card_properties CardProperties
 function Entity:insert_field_card(index, card_properties) end
+
+--- Causes the character to use the next field card when actions and movements end.
+---
+--- This request will be cancelled in time freeze, but can be used to TFC when appropriate.
+---
+--- The card will remain in field_cards until it's used.
+---
+--- Using this method will allow AuxProps to affect the card, unlike queued actions generated from a card.
+---
+--- Throws if the Entity doesn't pass [Character.from()](https://docs.hubos.dev/client/lua-api/entity-api/character)
+function Entity:use_card() end
 
 --- - `team`: [Team](https://docs.hubos.dev/client/lua-api/entity-api/entity#entityset_teamteam)
 ---
@@ -2515,6 +2593,12 @@ function Resources.load_texture(path) end
 ---@return string
 function Resources.load_audio(path) end
 
+--- Returns the path to the folder containing the game files.
+---
+--- Useful for loading assets that ship by default.
+---@return string
+function Resources.game_folder() end
+
 --- - `path`: file path relative to script file, use values returned from `Resources.load_audio()` for better performance.
 --- - `audio_behavior`: [AudioBehavior](https://docs.hubos.dev/client/lua-api/resource-api/resources#audiobehavior)
 ---
@@ -2556,6 +2640,10 @@ function Resources.local_index() end
 ---@param player_index number
 ---@param input_query Input
 function Resources.input_has(player_index, input_query) end
+
+--- Returns the namespace of the VM the calling mod is currently loaded in.
+---@return Namespace
+function Resources.namespace() end
 
 --- Audio will play from the beginning (sample 0), looping back to `start_sample` when `end_sample` is reached.
 ---
@@ -2842,6 +2930,18 @@ function Sprite:height() end
 --- Sets the height of the sprite, updates the scale.
 ---@param height number
 function Sprite:set_height(height) end
+
+--- Returns the rotation of the sprite, in radians.
+---
+--- You can convert to degrees with `radians / math.pi * 180`
+---@return number
+function Sprite:rotation() end
+
+--- Sets the rotation of the sprite.
+---
+--- You can convert degrees to radians with `degrees / 180 * math.pi`
+---@param radians number
+function Sprite:set_rotation(radians) end
 
 --- Returns a [Color](https://docs.hubos.dev/client/lua-api/resource-api/sprite#color)
 ---@return Color
@@ -3192,7 +3292,9 @@ function Tile:original_facing() end
 --- - `highlight`
 ---   - `Highlight.None`
 ---   - `Highlight.Flash`
+---     - Used to warn players about an attack that will happen.
 ---   - `Highlight.Solid`
+---     - Used to let players know they will get hit if they are on this tile.
 ---@param highlight Highlight
 function Tile:set_highlight(highlight) end
 
@@ -3460,8 +3562,9 @@ function Encounter:enable_automatic_turn_end(enabled) end
 function Encounter:set_turn_limit(limit) end
 
 --- - `chain_limit`
----   - `TimeFreezeChainLimit.OnePerTeam` the default, only the last time freeze action from each team will be used.
----   - `TimeFreezeChainLimit.OnePerEntity` only the last time freeze action from each entity will be used.
+---   - `TimeFreezeChainLimit.PerTeam(n)` only up to `n` time freeze actions from each team will be used.
+---     - The default is `TimeFreezeChainLimit.PerTeam(1)`
+---   - `TimeFreezeChainLimit.PerEntity(n)` only up to `n` time freeze actions from each entity will be used.
 ---   - `TimeFreezeChainLimit.Unlimited` every time freeze action in the chain will be used.
 ---@param chain_limit TimeFreezeChainLimit
 function Encounter:set_time_freeze_chain_limit(chain_limit) end
@@ -3879,10 +3982,46 @@ function AuxProp:once() end
 ---@return AuxProp
 function AuxProp:immediate() end
 
+--- Allows the AuxProp to auto remove after it's effects are have been applied `limit` times.
+---@param limit number
+---@return AuxProp
+function AuxProp:limit(limit) end
+
+--- Allows the AuxProp to auto remove after `limit` test runs, approximately `limit` battle frames.
+---@param limit number
+---@return AuxProp
+function AuxProp:limit_frames(limit) end
+
 --- The callback will be called shortly after the AuxProp's effect is applied. Multiple callbacks can be added to a single AuxProp.
 ---@param callback fun()
 ---@return AuxProp
 function AuxProp:with_callback(callback) end
+
+--- - Interval priority
+--- - `chance`: number, 1 is 100%, 0 is 0%.
+---
+--- The AuxProp will be given a random chance to pass.
+---
+--- ```lua
+--- -- one in five chance on hit to paralyze:
+--- player:add_aux_prop(
+---   AuxProp.new()
+---   :require_chance(1 / 5) -- 1 in 5 chance
+---   :require_hit_damage(Compare.GT, 0) -- on hit
+---   :apply_status(Hit.Paralyze, 20)
+--- )
+---
+--- -- 20% chance on hit to freeze:
+--- player:add_aux_prop(
+---   AuxProp.new()
+---   :require_chance(0.2)
+---   :require_hit_damage(Compare.GT, 0)
+---   :apply_status(Hit.Freeze, 20)
+--- )
+--- ```
+---@param chance number
+---@return AuxProp
+function AuxProp:require_chance(chance) end
 
 --- - Interval priority
 --- - `frames`: number
@@ -3970,6 +4109,20 @@ function AuxProp:require_element(element) end
 ---@return AuxProp
 function AuxProp:require_negative_tile_interaction() end
 
+--- - Body priority
+---
+--- The AuxProp will check the tile state of the tile under the entity.
+---@param tile_state TileState
+---@return AuxProp
+function AuxProp:require_tile_state(tile_state) end
+
+--- - Body priority
+---
+--- The AuxProp will check the tile state of the tile under the entity.
+---@param tile_state TileState
+---@return AuxProp
+function AuxProp:require_tile_state_absent(tile_state) end
+
 --- - Body Priority
 ---
 --- Applies when a new `entity:context()` has started.
@@ -3998,6 +4151,20 @@ function AuxProp:require_action(action_types) end
 ---@param emotion string
 ---@return AuxProp
 function AuxProp:require_emotion(emotion) end
+
+--- - Body priority
+---
+--- The AuxProp will check the attached entity for a defense rule with a matching priority.
+---@param defense_priority DefensePriority
+---@return AuxProp
+function AuxProp:require_defense(defense_priority) end
+
+--- - Body priority
+---
+--- The AuxProp will check the attached entity for a defense rule with a matching priority.
+---@param defense_priority DefensePriority
+---@return AuxProp
+function AuxProp:require_defense_absent(defense_priority) end
 
 --- - Body priority
 ---
@@ -4137,6 +4304,22 @@ function AuxProp:require_card_tag(tag) end
 ---@return AuxProp
 function AuxProp:require_card_not_tag(tag) end
 
+--- - Body priority
+--- - `hit_flags`: [Hit](https://docs.hubos.dev/client/lua-api/attack-api/hit-props#hit_propsflags)
+---
+--- The AuxProp will check active status [flags](https://docs.hubos.dev/client/lua-api/attack-api/hit-props#hit_propsflags) to see if all matching flags apply.
+---@param hit_flags Hit | number
+---@return AuxProp
+function AuxProp:require_statuses(hit_flags) end
+
+--- - Body priority
+--- - `hit_flags`: [Hit](https://docs.hubos.dev/client/lua-api/attack-api/hit-props#hit_propsflags)
+---
+--- The AuxProp will check active status [flags](https://docs.hubos.dev/client/lua-api/attack-api/hit-props#hit_propsflags) to verify no flags match.
+---@param hit_flags Hit | number
+---@return AuxProp
+function AuxProp:require_statuses_absent(hit_flags) end
+
 --- - HP Expression priority
 --- - `expr`: [Math Expression String](https://docs.hubos.dev/client/lua-api/defense-api/aux-prop#math-expression-strings), `"DAMAGE"` will represent the total damage value for all incoming hits.
 --- - `compare`: [Compare](https://docs.hubos.dev/client/lua-api/defense-api/aux-prop#compare)
@@ -4181,12 +4364,12 @@ function AuxProp:require_health_threshold(compare, percentage) end
 ---@return AuxProp
 function AuxProp:require_health(compare, health) end
 
---- - Update Context priority
+--- - Intercept Card priority
 ---
---- Allows for modification to the context on the associated entity, executes before actions are generated for cards and attacks.
----@param callback fun(context: AttackContext): AttackContext
+--- Intercepts a field card before it turns into an action. Field cards can be queued with [character:use_card()](https://docs.hubos.dev/client/lua-api/entity-api/character#characteruse_card).
+---@param callback fun(card_properties: CardProperties): CardProperties|nil
 ---@return AuxProp
-function AuxProp:update_context(callback) end
+function AuxProp:intercept_card(callback) end
 
 --- - Increase Card Damage priority
 --- - `increase`: number, the amount to increase the card damage before multiplying.
@@ -4199,6 +4382,13 @@ function AuxProp:increase_card_damage(increase) end
 ---@param increase number
 ---@return AuxProp
 function AuxProp:increase_card_multiplier(increase) end
+
+--- - Update Context priority
+---
+--- Allows for modification to the context on the associated entity, executes before actions are generated for cards and attacks.
+---@param callback fun(context: AttackContext): AttackContext
+---@return AuxProp
+function AuxProp:update_context(callback) end
 
 --- - Intercept Action priority
 ---
