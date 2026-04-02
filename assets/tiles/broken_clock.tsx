@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.12.1" name="broken_clock" tilewidth="20" tileheight="31" tilecount="6" columns="3" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.12.1" name="broken_clock" tilewidth="22" tileheight="31" tilecount="6" columns="3" objectalignment="bottom">
  <tileoffset x="0" y="-4"/>
- <image source="broken_clock.png" width="60" height="62"/>
+ <grid orientation="orthogonal" width="20" height="31"/>
+ <image source="broken_clock.png" width="66" height="62"/>
  <tile id="0">
   <animation>
    <frame tileid="1" duration="1000"/>
