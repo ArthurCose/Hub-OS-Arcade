@@ -159,6 +159,7 @@ function encounter_init(encounter, data)
     Field.find_characters(function(entity)
       entity:add_aux_prop(
         AuxProp.new()
+        :require_card_time_freeze(true)
         :intercept_card(function(card_properties)
           card_properties.time_freeze = false
 
@@ -168,6 +169,7 @@ function encounter_init(encounter, data)
           component.on_update_func = function()
             if not entity:has_actions() then
               entity:enable_hitbox(true)
+              component:eject()
             end
           end
 
