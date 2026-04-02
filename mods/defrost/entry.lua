@@ -153,6 +153,19 @@ function encounter_init(encounter, data)
   -- the key part of defrost mats:
   local artifact = Artifact.new()
 
+  ---@param entity Entity
+  local function temporarily_disable_hitbox(entity)
+    entity:enable_hitbox(false)
+
+    local component = entity:create_component(Lifetime.Local)
+    component.on_update_func = function()
+      if not entity:has_actions() then
+        entity:enable_hitbox(true)
+        component:eject()
+      end
+    end
+  end
+
   artifact.on_update_func = (function()
     artifact:delete()
 
@@ -161,19 +174,25 @@ function encounter_init(encounter, data)
         AuxProp.new()
         :require_card_time_freeze(true)
         :intercept_card(function(card_properties)
+          temporarily_disable_hitbox(entity)
+
           card_properties.time_freeze = false
 
-          entity:enable_hitbox(false)
-
-          local component = entity:create_component(Lifetime.Local)
-          component.on_update_func = function()
-            if not entity:has_actions() then
-              entity:enable_hitbox(true)
-              component:eject()
-            end
-          end
-
           return card_properties
+        end)
+      )
+
+      entity:add_aux_prop(
+        AuxProp.new()
+        :require_card_time_freeze(true)
+        :intercept_action(function(action)
+          temporarily_disable_hitbox(entity)
+
+          local card_properties = action:copy_card_properties()
+          card_properties.time_freeze = false
+          action:set_card_properties(card_properties)
+
+          return action
         end)
       )
 
