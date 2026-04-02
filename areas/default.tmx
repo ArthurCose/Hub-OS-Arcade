@@ -195,6 +195,6 @@
    <point/>
   </object>
   <object id="184" gid="109" x="300.5" y="475.5" width="24" height="34"/>
-  <object id="188" gid="115" x="312" y="168" width="22" height="31"/>
+  <object id="188" gid="115" x="299" y="155" width="22" height="31"/>
  </objectgroup>
 </map>

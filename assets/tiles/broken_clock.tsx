@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.12.1" name="broken_clock" tilewidth="22" tileheight="31" tilecount="6" columns="3" objectalignment="bottom">
- <tileoffset x="0" y="-4"/>
+ <tileoffset x="0" y="8"/>
  <grid orientation="orthogonal" width="20" height="31"/>
  <image source="broken_clock.png" width="66" height="62"/>
  <tile id="0">
