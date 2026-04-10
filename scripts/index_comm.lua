@@ -1,10 +1,13 @@
 --- Custom Data:
 
-local NAME =
-"Arcade"                                          -- This server's name (currently unused, but may be used in the future)
-local MESSAGE = "Earn prizes at the Arcade!"      -- Dialog for the ampstr
-local WARP_ADDRESS = "hubos.konstinople.dev:1971" -- What address should the warp link to (port is ignored)
-local WARP_DATA = ""                              -- What data should the warp from the index contain
+-- This server's name (currently unused, but may be used in the future)
+local NAME = "Arcade"
+-- Dialog for the ampstr
+local MESSAGE = "Earn prizes at the Arcade!"
+-- The address the warp links to, only include the port if it's not the default port
+local WARP_ADDRESS = "hubos.konstinople.dev:1971"
+-- Data included in the player_request event
+local WARP_DATA = ""
 
 --- Script (do not modify):
 
