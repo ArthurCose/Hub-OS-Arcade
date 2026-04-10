@@ -2,7 +2,7 @@
 
 local NAME =
 "Arcade"                                          -- This server's name (currently unused, but may be used in the future)
-local MESSAGE = "Come see the Arcade!"            -- Dialog for the ampstr
+local MESSAGE = "Earn prizes at the Arcade!"      -- Dialog for the ampstr
 local WARP_ADDRESS = "hubos.konstinople.dev:1971" -- What address should the warp link to (port is ignored)
 local WARP_DATA = ""                              -- What data should the warp from the index contain
 
@@ -29,6 +29,7 @@ local function send_register(address)
   local response = "index_register:name=" .. Net.encode_uri_component(NAME) ..
       "&message=" .. Net.encode_uri_component(MESSAGE) ..
       "&address=" .. Net.encode_uri_component(WARP_ADDRESS) ..
+      "&protocol=" .. Net.protocol_version() ..
       "&data=" .. Net.encode_uri_component(WARP_DATA)
 
   Async.message_server(address, response)
