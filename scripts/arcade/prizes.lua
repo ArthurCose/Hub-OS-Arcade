@@ -261,6 +261,7 @@ Net:on("object_interaction", function(event)
         end
 
         save_data:save(player_id)
+        Net.set_player_money(player_id, save_data.money)
 
         if prize.package_id then
           -- share mod
@@ -268,7 +269,6 @@ Net:on("object_interaction", function(event)
         else
           -- update ploshie
           Net.give_player_item(player_id, prize.id)
-          Net.set_player_money(player_id, save_data.money)
           update_prize_bot(data, save_data)
 
           Net.message_player(
