@@ -259,7 +259,7 @@ function BattleArena:try_reset()
   -- reset timer animations
   Net.synchronize(function()
     for _, bot_id in ipairs(self.countdown_bots) do
-      Net.animate_bot(bot_id, "DEFAULT")
+      Net.animate_actor(bot_id, "DEFAULT")
     end
   end)
 
@@ -344,7 +344,7 @@ function BattleArena:try_start()
   -- animate bots to display timer
   Net.synchronize(function()
     for _, bot_id in ipairs(self.countdown_bots) do
-      Net.animate_bot(bot_id, "COUNTDOWN")
+      Net.animate_actor(bot_id, "COUNTDOWN")
     end
   end)
 
@@ -367,7 +367,7 @@ function BattleArena:try_start()
     Net.synchronize(function()
       -- fight! instead of the timer
       for _, bot_id in ipairs(self.countdown_bots) do
-        Net.animate_bot(bot_id, "FIGHT")
+        Net.animate_actor(bot_id, "FIGHT")
       end
 
       -- make players face opponents
@@ -384,9 +384,9 @@ function BattleArena:try_start()
           self.locked_players[player_id] = true
 
           Net.lock_player_input(player_id)
-          Net.animate_player_properties(player_id, {
+          Net.animate_actor_properties(player_id, {
             {
-              properties = { { property = "Direction", value = direction } },
+              properties = { { property = "Direction", value = direction, ease = "Ceil" } },
               duration = 1
             }
           })
@@ -429,7 +429,7 @@ end
 ---@param z number?
 local function eject_player(arena, player_id, x, y, z)
   if not x or not y or not z then
-    x, y, z = Net.get_player_position_multi(player_id)
+    x, y, z = Net.get_actor_position_multi(player_id)
   end
 
   local team_range = resolve_team_range(arena, x, y, z)
@@ -578,7 +578,7 @@ Net:on("player_area_transfer", function(event)
   local tracked_player = tracked_players[event.player_id]
 
   if tracked_player then
-    tracked_player.area = Net.get_player_area(event.player_id)
+    tracked_player.area = Net.get_actor_area(event.player_id)
     leave_arena(tracked_player)
   end
 end)
@@ -591,7 +591,7 @@ Net:on("player_move", function(event)
   if not tracked_player then
     tracked_players[event.player_id] = {
       id = event.player_id,
-      area = Net.get_player_area(event.player_id),
+      area = Net.get_actor_area(event.player_id),
       x = x,
       y = y,
       z = z,

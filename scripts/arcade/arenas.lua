@@ -100,10 +100,10 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
 
       local duration = 0.3
 
-      Net.animate_player_properties(player_id, {
+      Net.animate_actor_properties(player_id, {
         {
           properties = {
-            { property = "Direction", value = Net.get_player_direction(player_id) }
+            { property = "Direction", value = Net.get_actor_direction(player_id) }
           }
         },
         {

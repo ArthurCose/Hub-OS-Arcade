@@ -41,7 +41,7 @@ end
 
 ---@param id Net.ActorId
 local function test_facing_right(id)
-  local direction = Net.get_player_direction(id)
+  local direction = Net.get_actor_direction(id)
   return direction and direction:sub(-4) ~= "LEFT"
 end
 
@@ -78,18 +78,18 @@ local function update_prize_bot(data, save_data)
     state = state .. "_MIRRORED"
   end
 
-  Net.animate_bot(data.prize_bot, state, true)
+  Net.animate_actor(data.prize_bot, state, true)
 end
 
 ---@param data Arcade.PlayerSessionData
 local function spawn_prize_bot(data)
   despawn_prize_bot(data)
 
-  local x, y, z = Net.get_player_position_multi(data.id)
+  local x, y, z = Net.get_actor_position_multi(data.id)
   local offset = PRIZE_OFFSETS[data.direction]
 
   data.prize_bot = Net.create_bot({
-    area_id = Net.get_player_area(data.id),
+    area_id = Net.get_actor_area(data.id),
     warp_in = false,
     texture_path = PRIZE_TEXTURE_PATH,
     animation_path = PRIZE_ANIM_PATH,
@@ -118,7 +118,7 @@ Net:on("player_join", function(event)
   players:insert(event.player_id, {
     id = event.player_id,
     prize_display_cooldown = PRIZE_DISPLAY_COOLDOWN,
-    direction = Net.get_player_direction(event.player_id)
+    direction = Net.get_actor_direction(event.player_id)
   })
 end)
 
@@ -137,12 +137,12 @@ Net:on("tick", function(event)
       data.prize_display_cooldown = data.prize_display_cooldown - 1
 
       if data.prize_display_cooldown == 0 then
-        data.direction = Net.get_player_direction(data.id)
+        data.direction = Net.get_actor_direction(data.id)
         spawn_prize_bot(data)
       end
     else
       -- see if we should rotate the prize bot
-      local direction = Net.get_player_direction(data.id)
+      local direction = Net.get_actor_direction(data.id)
 
       if data.direction ~= direction then
         data.direction = direction
@@ -160,7 +160,7 @@ local SHOP_MUG_ANIM_PATH = "/server/assets/bots/staff_mug.animation"
 
 Net:on("object_interaction", function(event)
   local player_id = event.player_id
-  local object = Net.get_object_by_id(Net.get_player_area(player_id), event.object_id)
+  local object = Net.get_object_by_id(Net.get_actor_area(player_id), event.object_id)
 
   if object.name ~= "Prize Counter" then
     return
