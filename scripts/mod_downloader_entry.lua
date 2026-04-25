@@ -35,6 +35,7 @@ local package_ids = {
   "dev.konstinople.library.turn_based",
   "dev.konstinople.library.spectator_fun",
   "dev.konstinople.library.ssb",
+  "BattleNetwork6.Statuses.EnemyAlert",
 
   -- bugs
   "BattleNetwork.Bugs.EmotionFlicker",
