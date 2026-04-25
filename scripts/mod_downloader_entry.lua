@@ -12,14 +12,10 @@ local package_ids = {
   "BattleNetwork3.Virus.Boomer",
   "BattleNetwork4.Gaia",
   "BattleNetwork5.Powie",
-  "BattleNetwork4.GutsMan.Enemy",
-  "BattleNetwork5.BlizzardMan.Enemy",
   "BattleNetwork4.Bass",
   "BattleNetwork4.FireMan",
-  "BattleNetwork4.FireMan.Enemy",
   "BattleNetwork5.BlizzardMan",
   "BattleNetwork4.GutsMan",
-  "BattleNetwork4.Bass.Enemy",
 
   -- tile states
   "BattleNetwork5.TileStates.Sea",
