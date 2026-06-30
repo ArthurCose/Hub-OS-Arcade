@@ -1,0 +1,14 @@
+[package]
+category = "encounter"
+id = "dev.konstinople.battle.arcade.bots"
+
+[dependencies]
+libraries = [
+  "BattleNetwork6.Libraries.HitDamageJudge",
+  "dev.konstinople.library.timers",
+  "dev.konstinople.library.spectator_fun",
+  "dev.konstinople.library.arcade_fields",
+  "BattleNetwork4.TournamentIntro",
+]
+encounters = ["dev.konstinople.encounters.NormalNPC"]
+characters = ["dev.konstinople.enemies.NormalNPC"]

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="isometric" renderorder="right-down" compressionlevel="0" width="22" height="18" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="189">
+<map version="1.10" tiledversion="1.12.2" orientation="isometric" renderorder="right-down" compressionlevel="0" width="21" height="23" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="202">
  <properties>
   <property name="Background Animation" value="/server/assets/anime.animation"/>
   <property name="Background Texture" value="/server/assets/anime.png"/>
@@ -16,31 +16,37 @@
  <tileset firstgid="71" source="../assets/tiles/spawn_warp.tsx"/>
  <tileset firstgid="76" source="../assets/tiles/prize_counter.tsx"/>
  <tileset firstgid="77" source="../assets/tiles/posters.tsx"/>
- <tileset firstgid="89" source="../assets/tiles/portal.tsx"/>
- <tileset firstgid="98" source="../assets/tiles/door.tsx"/>
- <tileset firstgid="100" source="../assets/tiles/free_for_all.tsx"/>
- <tileset firstgid="109" source="../assets/tiles/bug_frag.tsx"/>
- <tileset firstgid="115" source="../assets/tiles/broken_clock.tsx"/>
- <layer id="3" name="Layer 0" width="22" height="18">
+ <tileset firstgid="101" source="../assets/tiles/portal.tsx"/>
+ <tileset firstgid="110" source="../assets/tiles/door.tsx"/>
+ <tileset firstgid="112" source="../assets/tiles/free_for_all.tsx"/>
+ <tileset firstgid="121" source="../assets/tiles/bug_frag.tsx"/>
+ <tileset firstgid="127" source="../assets/tiles/broken_clock.tsx"/>
+ <tileset firstgid="133" source="../assets/tiles/npc.tsx"/>
+ <layer id="3" name="Layer 0" width="21" height="23">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,0,
-0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,0,0,0,0,0,
-0,0,52,16,1,2,3,16,1,2,3,16,1,2,3,16,18,0,0,0,0,0,
-0,0,52,22,7,8,9,22,7,8,9,22,7,8,9,22,24,22,23,24,61,0,
-0,0,52,28,27,14,20,28,27,14,20,28,27,14,20,28,30,31,28,29,57,0,
-0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,13,10,11,57,0,
-0,0,52,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,18,19,16,17,57,0,
-0,0,52,22,34,35,36,22,43,44,45,22,43,101,45,22,24,25,22,23,57,0,
-0,0,52,28,40,41,42,28,49,50,51,28,49,107,51,28,30,31,28,29,57,0,
-0,0,52,10,27,14,20,10,27,14,20,10,27,14,20,10,12,13,10,11,57,0,
-0,0,52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,19,16,17,57,0,
-0,0,52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,24,25,22,23,57,0,
-0,0,52,28,1,2,3,28,1,2,3,28,1,2,3,28,30,58,56,56,0,0,
-0,0,52,10,7,8,9,10,7,8,9,10,7,8,9,10,12,57,0,0,0,0,
-0,0,52,16,17,18,19,16,17,18,19,16,17,18,19,16,18,57,0,0,0,0,
-0,0,0,54,56,56,56,56,56,56,56,56,56,56,56,56,56,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,
+0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,0,0,0,0,
+0,0,52,16,1,2,3,16,1,2,3,16,1,2,3,16,18,0,0,0,0,
+0,0,52,22,7,8,9,22,7,8,9,22,7,8,9,22,24,22,23,24,61,
+0,0,52,28,27,14,20,28,27,14,20,28,27,14,20,28,30,31,28,29,57,
+0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,11,12,13,10,57,
+0,0,52,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,17,18,19,16,57,
+0,0,52,22,34,35,36,22,43,44,45,22,43,113,45,22,23,24,25,22,57,
+0,0,52,28,40,41,42,28,49,50,51,28,49,119,51,28,29,30,31,28,57,
+0,0,52,10,27,14,20,10,27,14,20,10,27,14,20,10,11,12,13,10,57,
+0,0,52,16,17,18,19,16,17,18,19,16,17,18,19,16,17,18,19,16,57,
+0,0,52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,23,24,25,22,57,
+0,0,52,28,1,2,3,28,1,2,3,28,1,2,3,28,29,58,56,56,0,
+0,0,52,10,7,8,9,10,7,8,9,10,7,8,9,10,11,57,0,0,0,
+0,0,52,16,27,14,20,16,27,14,20,16,27,14,20,16,17,57,0,0,0,
+0,0,52,22,23,24,25,22,23,24,25,22,23,24,25,22,23,57,0,0,0,
+0,0,52,28,3221225493,3221225486,3221225498,28,3221225493,3221225486,3221225498,28,3221225493,3221225486,3221225498,28,29,57,0,0,0,
+0,0,52,10,1,2,3,10,1,2,3,10,1,2,3,10,11,57,0,0,0,
+0,0,52,16,7,8,9,16,7,8,9,16,7,8,9,16,17,57,0,0,0,
+0,0,52,22,23,24,25,22,23,24,25,22,23,24,25,22,23,57,0,0,0,
+0,0,0,54,56,56,56,56,56,56,56,56,56,56,56,56,56,0,0,0,0
 </data>
  </layer>
  <objectgroup id="4" name="Object Layer 0">
@@ -54,39 +60,39 @@
     <property name="Direction" value="Up Left"/>
    </properties>
   </object>
-  <object id="140" gid="77" x="64" y="408" width="28" height="48">
+  <object id="140" gid="77" x="64" y="608" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="182"/>
    </properties>
   </object>
-  <object id="142" gid="79" x="64" y="240" width="28" height="48">
+  <object id="142" gid="79" x="64" y="288" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="177"/>
    </properties>
   </object>
-  <object id="143" gid="78" x="64" y="328" width="28" height="48">
+  <object id="143" gid="78" x="64" y="448" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="179"/>
    </properties>
   </object>
-  <object id="144" gid="80" x="64" y="160" width="28" height="48">
+  <object id="144" gid="80" x="64" y="128" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="178"/>
    </properties>
   </object>
-  <object id="145" gid="2147483729" x="240" y="64" width="28" height="48"/>
-  <object id="146" gid="2147483730" x="304" y="64" width="28" height="48"/>
-  <object id="147" gid="2147483731" x="131" y="63" width="28" height="48"/>
-  <object id="148" gid="2147483732" x="400" y="64" width="28" height="48"/>
-  <object id="149" gid="2147483733" x="160" y="64" width="28" height="48"/>
-  <object id="152" gid="2147483734" x="408" y="64" width="28" height="48"/>
+  <object id="145" gid="2147483733" x="240" y="64" width="28" height="48"/>
+  <object id="146" gid="2147483734" x="304" y="64" width="28" height="48"/>
+  <object id="147" gid="2147483735" x="131" y="63" width="28" height="48"/>
+  <object id="148" gid="2147483736" x="400" y="64" width="28" height="48"/>
+  <object id="149" gid="2147483741" x="160" y="64" width="28" height="48"/>
+  <object id="152" gid="2147483742" x="408" y="64" width="28" height="48"/>
   <object id="154" name="Spawn" x="592.5" y="328.5">
    <properties>
     <property name="Direction" value="Up Left"/>
    </properties>
    <point/>
   </object>
-  <object id="159" gid="92" x="307" y="320" width="36" height="48"/>
+  <object id="159" gid="104" x="307" y="320" width="36" height="48"/>
   <object id="160" name="Bookmark Bot" type="Bookmark" x="531.5" y="464.5">
    <properties>
     <property name="Direction" value="Up Left"/>
@@ -100,7 +106,7 @@
     <property name="Reward Min Turns" type="int" value="3"/>
    </properties>
   </object>
-  <object id="164" name="Arena" x="256" y="448" width="96" height="64">
+  <object id="164" name="Arena" x="128" y="608" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/evil"/>
     <property name="Launch Direction" value="Up"/>
@@ -109,7 +115,6 @@
   <object id="165" name="Arena" x="384" y="448" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/randomized"/>
-    <property name="Launch Direction" value="Up"/>
    </properties>
   </object>
   <object id="166" name="Arena" x="384" y="288" width="96" height="64">
@@ -130,7 +135,6 @@
   <object id="168" name="Arena" x="128" y="448" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/randomized"/>
-    <property name="Launch Direction" value="Up"/>
    </properties>
   </object>
   <object id="169" name="Arena" x="128" y="128" width="96" height="64">
@@ -139,10 +143,10 @@
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
-  <object id="170" name="Arena" x="256" y="128" width="96" height="64">
+  <object id="170" name="Arena" x="384" y="608" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/defrost"/>
-    <property name="Launch Direction" value="Down"/>
+    <property name="Launch Direction" value="Up"/>
    </properties>
   </object>
   <object id="171" name="Arena" x="384" y="128" width="96" height="64">
@@ -151,7 +155,7 @@
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
-  <object id="172" name="Door" gid="98" x="460" y="36" width="34" height="67">
+  <object id="172" name="Door" gid="110" x="460" y="36" width="34" height="67">
    <properties>
     <property name="On Interact" type="object" value="173"/>
    </properties>
@@ -163,28 +167,28 @@
    </properties>
    <point/>
   </object>
-  <object id="177" type="Script Node: Message" x="16" y="216">
+  <object id="177" type="Script Node: Message" x="16" y="264">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;RockMan Tennis&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="178" type="Script Node: Message" x="16" y="136">
+  <object id="178" type="Script Node: Message" x="16" y="104">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;RollΩ&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="179" type="Script Node: Message" x="16" y="304">
+  <object id="179" type="Script Node: Message" x="16" y="424">
    <properties>
     <property name="Next" type="object" value="0"/>
-    <property name="Text" value="&quot;ProtoMan&quot;"/>
+    <property name="Text" value="&quot;Darkloid&quot;"/>
    </properties>
    <point/>
   </object>
-  <object id="182" type="Script Node: Message" x="8" y="384">
+  <object id="182" type="Script Node: Message" x="16" y="584">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Text" value="&quot;MegaMan&quot;"/>
@@ -194,7 +198,69 @@
   <object id="183" type="Shop" x="575.5" y="198.5">
    <point/>
   </object>
-  <object id="184" gid="109" x="300.5" y="475.5" width="24" height="34"/>
-  <object id="188" gid="115" x="299" y="155" width="22" height="31"/>
+  <object id="184" gid="121" x="172" y="636" width="24" height="34"/>
+  <object id="188" gid="127" x="429" y="636" width="22" height="31"/>
+  <object id="189" name="Arena" x="256" y="608" width="96" height="64">
+   <properties>
+    <property name="Encounter" value="/server/mods/bots"/>
+    <property name="Launch Direction" value="Up"/>
+    <property name="PVE" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="190" name="Arena" x="256" y="448" width="96" height="64">
+   <properties>
+    <property name="Encounter" value="/server/mods/randomized"/>
+   </properties>
+  </object>
+  <object id="191" name="Arena" x="256" y="128" width="96" height="64">
+   <properties>
+    <property name="Encounter" value="/server/mods/randomized"/>
+    <property name="Launch Direction" value="Down"/>
+   </properties>
+  </object>
+  <object id="192" x="174.237" y="-23.1176">
+   <ellipse/>
+  </object>
+  <object id="193" x="355.527" y="-44.5897">
+   <ellipse/>
+  </object>
+  <object id="194" gid="2147483743" x="456" y="64" width="28" height="48"/>
+  <object id="195" gid="89" x="64" y="528" width="28" height="48">
+   <properties>
+    <property name="On Interact" type="object" value="199"/>
+   </properties>
+  </object>
+  <object id="196" gid="90" x="64" y="208" width="28" height="48">
+   <properties>
+    <property name="On Interact" type="object" value="198"/>
+   </properties>
+  </object>
+  <object id="197" gid="91" x="64" y="368" width="28" height="48">
+   <properties>
+    <property name="On Interact" type="object" value="200"/>
+   </properties>
+  </object>
+  <object id="198" type="Script Node: Message" x="16" y="184">
+   <properties>
+    <property name="Next" type="object" value="0"/>
+    <property name="Text" value="Dome City's &quot;DenDimmaDome&quot;"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="199" type="Script Node: Message" x="16" y="496">
+   <properties>
+    <property name="Next" type="object" value="0"/>
+    <property name="Text" value="&quot;Inside the DennaDome&quot;"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="200" type="Script Node: Message" x="16" y="344">
+   <properties>
+    <property name="Next" type="object" value="0"/>
+    <property name="Text" value="&quot;BoOToH&quot;"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="201" gid="133" x="301" y="638" width="21" height="31"/>
  </objectgroup>
 </map>
