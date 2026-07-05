@@ -8,92 +8,92 @@
  </properties>
  <tileset firstgid="1" source="../assets/tiles/battle_arena.tsx"/>
  <tileset firstgid="10" source="../assets/tiles/carpet.tsx"/>
- <tileset firstgid="34" source="../assets/tiles/tennis.tsx"/>
- <tileset firstgid="43" source="../assets/tiles/multiman.tsx"/>
- <tileset firstgid="52" source="../assets/tiles/wall.tsx"/>
- <tileset firstgid="64" source="../assets/tiles/welcome_mat.tsx"/>
- <tileset firstgid="66" source="../assets/tiles/warp.tsx"/>
- <tileset firstgid="71" source="../assets/tiles/spawn_warp.tsx"/>
- <tileset firstgid="76" source="../assets/tiles/prize_counter.tsx"/>
- <tileset firstgid="77" source="../assets/tiles/posters.tsx"/>
- <tileset firstgid="101" source="../assets/tiles/portal.tsx"/>
- <tileset firstgid="110" source="../assets/tiles/door.tsx"/>
- <tileset firstgid="112" source="../assets/tiles/free_for_all.tsx"/>
- <tileset firstgid="121" source="../assets/tiles/bug_frag.tsx"/>
- <tileset firstgid="127" source="../assets/tiles/broken_clock.tsx"/>
- <tileset firstgid="133" source="../assets/tiles/npc.tsx"/>
- <tileset firstgid="134" source="../assets/tiles/limited_time_freeze.tsx"/>
+ <tileset firstgid="46" source="../assets/tiles/tennis.tsx"/>
+ <tileset firstgid="55" source="../assets/tiles/multiman.tsx"/>
+ <tileset firstgid="64" source="../assets/tiles/wall.tsx"/>
+ <tileset firstgid="76" source="../assets/tiles/welcome_mat.tsx"/>
+ <tileset firstgid="78" source="../assets/tiles/warp.tsx"/>
+ <tileset firstgid="83" source="../assets/tiles/spawn_warp.tsx"/>
+ <tileset firstgid="88" source="../assets/tiles/prize_counter.tsx"/>
+ <tileset firstgid="89" source="../assets/tiles/posters.tsx"/>
+ <tileset firstgid="113" source="../assets/tiles/portal.tsx"/>
+ <tileset firstgid="122" source="../assets/tiles/door.tsx"/>
+ <tileset firstgid="124" source="../assets/tiles/free_for_all.tsx"/>
+ <tileset firstgid="133" source="../assets/tiles/bug_frag.tsx"/>
+ <tileset firstgid="139" source="../assets/tiles/broken_clock.tsx"/>
+ <tileset firstgid="145" source="../assets/tiles/npc.tsx"/>
+ <tileset firstgid="146" source="../assets/tiles/limited_time_freeze.tsx"/>
  <layer id="3" name="Layer 0" width="21" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,53,53,53,53,53,53,53,53,53,53,53,53,53,53,0,0,0,0,
-0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,12,0,0,0,0,
-0,0,52,16,1,2,3,16,1,2,3,16,1,2,3,16,18,0,0,0,0,
-0,0,52,22,7,8,9,22,7,8,9,22,7,8,9,22,24,22,23,24,61,
-0,0,52,28,27,14,20,28,27,14,20,28,27,14,20,28,30,31,28,29,57,
-0,0,52,10,11,12,13,10,11,12,13,10,11,12,13,10,11,12,13,10,57,
-0,0,52,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,17,18,19,16,57,
-0,0,52,22,34,35,36,22,43,44,45,22,43,113,45,22,23,24,25,22,57,
-0,0,52,28,40,41,42,28,49,50,51,28,49,119,51,28,29,30,31,28,57,
-0,0,52,10,27,14,20,10,27,14,20,10,27,14,20,10,11,12,13,10,57,
-0,0,52,16,17,18,19,16,17,18,19,16,17,18,19,16,17,18,19,16,57,
-0,0,52,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,23,24,25,22,57,
-0,0,52,28,1,2,3,28,1,2,3,28,1,2,3,28,29,58,56,56,0,
-0,0,52,10,7,8,9,10,7,8,9,10,7,8,9,10,11,57,0,0,0,
-0,0,52,16,27,14,20,16,27,14,20,16,27,14,20,16,17,57,0,0,0,
-0,0,52,22,23,24,25,22,23,24,25,22,23,24,25,22,23,57,0,0,0,
-0,0,52,28,3221225493,3221225486,3221225498,28,3221225493,3221225486,3221225498,28,3221225493,3221225486,3221225498,28,29,57,0,0,0,
-0,0,52,10,1,2,3,10,1,2,3,10,1,2,3,10,11,57,0,0,0,
-0,0,52,16,7,8,9,16,7,8,9,16,7,8,9,16,17,57,0,0,0,
-0,0,52,22,23,24,25,22,23,24,25,22,23,24,25,22,23,57,0,0,0,
-0,0,0,54,56,56,56,56,56,56,56,56,56,56,56,56,56,0,0,0,0
+0,0,0,65,65,65,65,65,65,65,65,65,65,65,65,65,65,0,0,0,0,
+0,0,64,10,11,12,13,10,11,12,13,10,11,12,13,10,11,0,0,0,0,
+0,0,64,16,1,2,3,16,1,2,3,16,1,2,3,16,17,0,0,0,0,
+0,0,64,22,7,8,9,22,7,8,9,22,7,8,9,22,23,22,23,24,73,
+0,0,64,28,45,39,38,28,27,14,20,28,27,14,20,28,29,31,28,29,69,
+0,0,64,10,11,12,13,10,11,12,13,10,11,12,13,10,11,12,13,10,69,
+0,0,64,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,3221225493,3221225486,3221225498,16,17,18,19,16,69,
+0,0,64,22,46,47,48,22,55,56,57,22,55,125,57,22,23,24,25,22,69,
+0,0,64,28,52,53,54,28,61,62,63,28,61,131,63,28,29,30,31,28,69,
+0,0,64,10,27,14,20,10,27,14,20,10,27,14,20,10,11,12,13,10,69,
+0,0,64,16,17,18,19,16,17,18,19,16,17,18,19,16,17,18,19,16,69,
+0,0,64,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,3221225493,3221225486,3221225498,22,23,24,25,22,69,
+0,0,64,28,1,2,3,28,1,2,3,28,1,2,3,28,29,70,68,68,0,
+0,0,64,10,7,8,9,10,7,8,9,10,7,8,9,10,11,69,0,0,0,
+0,0,64,16,27,14,20,16,27,14,20,16,27,14,20,16,17,69,0,0,0,
+0,0,64,22,23,24,25,22,23,24,25,22,23,24,25,22,23,69,0,0,0,
+0,0,64,28,3221225493,3221225486,3221225498,28,3221225493,3221225486,3221225498,28,3221225493,3221225486,3221225498,28,29,69,0,0,0,
+0,0,64,10,1,2,3,10,1,2,3,10,1,2,3,10,11,69,0,0,0,
+0,0,64,16,7,8,9,16,7,8,9,16,7,8,9,16,17,69,0,0,0,
+0,0,64,22,23,24,25,22,23,24,25,22,23,24,25,22,23,69,0,0,0,
+0,0,0,66,68,68,68,68,68,68,68,68,68,68,68,68,68,0,0,0,0
 </data>
  </layer>
  <objectgroup id="4" name="Object Layer 0">
-  <object id="128" gid="64" x="532.5" y="376.5" width="75" height="40"/>
-  <object id="130" gid="65" x="508.5" y="312.5" width="75" height="40"/>
-  <object id="135" gid="64" x="524.5" y="248.5" width="75" height="40"/>
-  <object id="138" name="Prize Counter" gid="76" x="543" y="223" width="192" height="200"/>
-  <object id="134" type="Server Warp" gid="72" x="568.5" y="304.5" width="92" height="51">
+  <object id="128" gid="76" x="532.5" y="376.5" width="75" height="40"/>
+  <object id="130" gid="77" x="508.5" y="312.5" width="75" height="40"/>
+  <object id="135" gid="76" x="524.5" y="248.5" width="75" height="40"/>
+  <object id="138" name="Prize Counter" gid="88" x="543" y="223" width="192" height="200"/>
+  <object id="134" type="Server Warp" gid="84" x="568.5" y="304.5" width="92" height="51">
    <properties>
     <property name="Address" value="hubos.konstinople.dev"/>
     <property name="Direction" value="Up Left"/>
    </properties>
   </object>
-  <object id="140" gid="77" x="64" y="608" width="28" height="48">
+  <object id="140" gid="89" x="64" y="608" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="182"/>
    </properties>
   </object>
-  <object id="142" gid="79" x="64" y="288" width="28" height="48">
+  <object id="142" gid="91" x="64" y="288" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="177"/>
    </properties>
   </object>
-  <object id="143" gid="78" x="64" y="448" width="28" height="48">
+  <object id="143" gid="90" x="64" y="448" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="179"/>
    </properties>
   </object>
-  <object id="144" gid="80" x="64" y="128" width="28" height="48">
+  <object id="144" gid="92" x="64" y="128" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="178"/>
    </properties>
   </object>
-  <object id="145" gid="2147483733" x="240" y="64" width="28" height="48"/>
-  <object id="146" gid="2147483734" x="304" y="64" width="28" height="48"/>
-  <object id="147" gid="2147483735" x="131" y="63" width="28" height="48"/>
-  <object id="148" gid="2147483736" x="400" y="64" width="28" height="48"/>
-  <object id="149" gid="2147483741" x="160" y="64" width="28" height="48"/>
-  <object id="152" gid="2147483742" x="408" y="64" width="28" height="48"/>
+  <object id="145" gid="2147483745" x="240" y="64" width="28" height="48"/>
+  <object id="146" gid="2147483746" x="304" y="64" width="28" height="48"/>
+  <object id="147" gid="2147483747" x="131" y="63" width="28" height="48"/>
+  <object id="148" gid="2147483748" x="400" y="64" width="28" height="48"/>
+  <object id="149" gid="2147483753" x="160" y="64" width="28" height="48"/>
+  <object id="152" gid="2147483754" x="408" y="64" width="28" height="48"/>
   <object id="154" name="Spawn" x="592.5" y="328.5">
    <properties>
     <property name="Direction" value="Up Left"/>
    </properties>
    <point/>
   </object>
-  <object id="159" gid="104" x="307" y="320" width="36" height="48"/>
+  <object id="159" gid="116" x="307" y="320" width="36" height="48"/>
   <object id="160" name="Bookmark Bot" type="Bookmark" x="531.5" y="464.5">
    <properties>
     <property name="Direction" value="Up Left"/>
@@ -140,6 +140,7 @@
   </object>
   <object id="169" name="Arena" x="128" y="128" width="96" height="64">
    <properties>
+    <property name="Disable Spectating" type="bool" value="true"/>
     <property name="Encounter" value="/server/mods/randomized"/>
     <property name="Launch Direction" value="Down"/>
    </properties>
@@ -156,7 +157,7 @@
     <property name="Launch Direction" value="Down"/>
    </properties>
   </object>
-  <object id="172" name="Door" gid="110" x="460" y="36" width="34" height="67">
+  <object id="172" name="Door" gid="122" x="460" y="36" width="34" height="67">
    <properties>
     <property name="On Interact" type="object" value="173"/>
    </properties>
@@ -199,8 +200,8 @@
   <object id="183" type="Shop" x="575.5" y="198.5">
    <point/>
   </object>
-  <object id="184" gid="121" x="172" y="636" width="24" height="34"/>
-  <object id="188" gid="127" x="429" y="636" width="22" height="31"/>
+  <object id="184" gid="133" x="172" y="636" width="24" height="34"/>
+  <object id="188" gid="139" x="429" y="636" width="22" height="31"/>
   <object id="189" name="Arena" x="256" y="608" width="96" height="64">
    <properties>
     <property name="Encounter" value="/server/mods/bots"/>
@@ -225,18 +226,18 @@
   <object id="193" x="355.527" y="-44.5897">
    <ellipse/>
   </object>
-  <object id="194" gid="2147483743" x="456" y="64" width="28" height="48"/>
-  <object id="195" gid="89" x="64" y="528" width="28" height="48">
+  <object id="194" gid="2147483755" x="456" y="64" width="28" height="48"/>
+  <object id="195" gid="101" x="64" y="528" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="199"/>
    </properties>
   </object>
-  <object id="196" gid="90" x="64" y="208" width="28" height="48">
+  <object id="196" gid="102" x="64" y="208" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="198"/>
    </properties>
   </object>
-  <object id="197" gid="91" x="64" y="368" width="28" height="48">
+  <object id="197" gid="103" x="64" y="368" width="28" height="48">
    <properties>
     <property name="On Interact" type="object" value="200"/>
    </properties>
@@ -262,8 +263,8 @@
    </properties>
    <point/>
   </object>
-  <object id="201" gid="133" x="301" y="638" width="21" height="31"/>
-  <object id="205" gid="134" x="300" y="476" width="24" height="32"/>
-  <object id="206" gid="134" x="300" y="156" width="24" height="32"/>
+  <object id="201" gid="145" x="301" y="638" width="21" height="31"/>
+  <object id="205" gid="146" x="300" y="476" width="24" height="32"/>
+  <object id="206" gid="146" x="300" y="156" width="24" height="32"/>
  </objectgroup>
 </map>

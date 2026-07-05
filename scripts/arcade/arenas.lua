@@ -41,6 +41,11 @@ for _, object_id in ipairs(Net.list_objects(area_id)) do
     local spectators_above = launch_direction ~= "Down"
     local spectators_below = launch_direction ~= "Up"
 
+    if object.custom_properties["Disable Spectating"] then
+      spectators_above = false
+      spectators_below = false
+    end
+
     if spectators_above then
       team_ranges[#team_ranges + 1] = {
         team = "spectators",
