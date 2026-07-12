@@ -264,7 +264,7 @@
    <point/>
   </object>
   <object id="201" gid="145" x="301" y="638" width="21" height="31"/>
-  <object id="205" gid="146" x="300" y="476" width="24" height="32"/>
-  <object id="206" gid="146" x="300" y="156" width="24" height="32"/>
+  <object id="205" gid="146" x="305" y="476" width="32" height="32"/>
+  <object id="206" gid="146" x="305" y="156" width="32" height="32"/>
  </objectgroup>
 </map>
