@@ -1,20 +1,8 @@
-local HitDamageJudge = require("BattleNetwork6.Libraries.HitDamageJudge")
-local SpectatorFun = require("dev.konstinople.library.spectator_fun")
-local Timers = require("dev.konstinople.library.timers")
 local TournamentIntro = require("BattleNetwork4.TournamentIntro")
+---@type dev.konstinople.library.arcade_fields
 local ArcadeFields = require("dev.konstinople.library.arcade_fields")
 
-local spawn_pattern = {
-  { 2, 2 }, -- center
-  { 1, 3 }, -- bottom left
-  { 1, 1 }, -- top left
-  { 3, 3 }, -- bottom right
-  { 3, 1 }, -- top right
-  { 1, 2 }, -- back
-  { 3, 2 }, -- front
-  { 2, 1 }, -- top
-  { 2, 3 }, -- bottom
-}
+local resolve_spawn = ArcadeFields.create_player_spawn_resolver()
 
 ---@param encounter Encounter
 ---@param teams { team: string, player_count: number }[]
@@ -36,56 +24,6 @@ local function for_players_in_teams(encounter, teams, callback)
 
     callback(i, team and team.team)
     remaining = remaining - 1
-  end
-end
-
-local red_attempts = 0
-local blue_attempts = 0
-
----@param team Team
-local function resolve_spawn(team)
-  while true do
-    local spawn_index
-
-    if team == Team.Blue then
-      spawn_index = blue_attempts
-      blue_attempts = blue_attempts + 1
-    else
-      spawn_index = red_attempts
-      red_attempts = red_attempts + 1
-    end
-
-    spawn_index = spawn_index % #spawn_pattern + 1
-
-    local position = spawn_pattern[spawn_index]
-    local x, y = position[1], position[2]
-
-    if team == Team.Blue then
-      -- mirror
-      x = 7 - x
-    end
-
-    local tile = Field.tile_at(x, y)
-
-    if not tile then
-      goto continue
-    end
-
-    if tile:is_walkable() and not tile:is_reserved() then
-      return x, y
-    end
-
-    if team == Team.Blue then
-      tile = tile:get_tile(Direction.Right, 1)
-    else
-      tile = tile:get_tile(Direction.Left, 1)
-    end
-
-    if tile and tile:is_walkable() and not tile:is_reserved() then
-      return tile:x(), tile:y()
-    end
-
-    ::continue::
   end
 end
 
@@ -120,19 +58,9 @@ end
 
 ---@param encounter Encounter
 function encounter_init(encounter, data)
+  ArcadeFields.apply_pvp_rules(encounter)
   ArcadeFields.randomize_field()
   ArcadeFields.randomize_ambience(encounter)
-
-  encounter:set_turn_limit(15)
-  encounter:set_time_freeze_chain_limit(TimeFreezeChainLimit.Unlimited)
-  HitDamageJudge.init(encounter)
-  SpectatorFun.init(encounter)
-
-  Timers.AfkTimer.init(encounter)
-  Timers.CardSelectTimer.init(encounter)
-  Timers.TurnTimer.init(encounter)
-
-  encounter:set_spectate_on_delete(true)
 
   local red_players = 0
   local blue_players = 0
@@ -194,9 +122,6 @@ function encounter_init(encounter, data)
       neutralize_column(Field.width() - 3)
     end
   end
-
-  -- by LDR's request
-  encounter:set_entities_share_ownership(false)
 
   -- neon tournament intro
   local colors = {

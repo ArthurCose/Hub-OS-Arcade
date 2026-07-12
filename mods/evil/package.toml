@@ -5,10 +5,7 @@ id = "dev.konstinople.battle.arcade.evil"
 [dependencies]
 libraries = [
   "BattleNetwork.Assets",
-  "BattleNetwork6.Libraries.HitDamageJudge",
   "BattleNetwork4.TournamentIntro",
-  "dev.konstinople.library.timers",
-  "dev.konstinople.library.spectator_fun",
   "dev.konstinople.library.arcade_fields",
 ]
 statuses = ["dev.konstinople.status.arcade_bug"]
