@@ -172,6 +172,7 @@ function ScriptNodes:new()
   s:implement_camera_api()
   s:implement_encounter_api()
   s:implement_inventory_api()
+  s:implement_equipment_api()
   s:implement_link_api()
   s:implement_actor_api()
   s:implement_tag_api()
@@ -1274,6 +1275,11 @@ function ScriptNodes:implement_object_api()
     end
 
     local object = Net.get_object_by_id(area_id, event.object_id)
+
+    if not object then
+      return
+    end
+
     local interact_id = object.custom_properties["On Interact"]
 
     if interact_id then
@@ -1859,6 +1865,7 @@ end
 ---
 ---Supported custom properties:
 --- - `Target` "Player [1+]" (optional)
+--- - `Sound` string
 --- - `Next [1]` a link to the next node (optional)
 function ScriptNodes:implement_sound_api()
   self:implement_node("play sound", function(context, object)
@@ -1946,7 +1953,7 @@ function ScriptNodes:implement_camera_api()
       Net.track_with_player_camera(player_id, properties.actor_id)
     elseif properties.Motion == "Slide" then
       Net.slide_player_camera(player_id, properties.x, properties.y, properties.z, duration)
-    else
+    elseif properties.Motion == "Snap" then
       Net.move_player_camera(player_id, properties.x, properties.y, properties.z, duration)
     end
   end
@@ -2225,6 +2232,47 @@ function ScriptNodes:implement_inventory_api()
     else
       self:execute_next_node(context, context.area_id, object)
     end
+  end)
+end
+
+---Implements support for the `Lock Equipment`, `Unlock Equipment`, and `Set Restrictions` nodes.
+---
+---Expects `area_id` and `player_id` or `player_ids` to be defined on the context table.
+---
+---Supported custom properties for `Lock Equipment`:
+--- - `Next [1]` a link to the next node (optional)
+---
+---Supported custom properties for `Unlock Equipment`:
+--- - `Next [1]` a link to the next node (optional)
+---
+---Supported custom properties for `Set Restrictions`:
+--- - `Path` string
+--- - `Next [1]` a link to the next node (optional)
+function ScriptNodes:implement_equipment_api()
+  self:implement_node("lock equipment", function(context, object)
+    for_each_player(context, function(player_id)
+      Net.lock_player_equipment(player_id)
+    end)
+
+    self:execute_next_node(context, context.area_id, object)
+  end)
+
+  self:implement_node("unlock equipment", function(context, object)
+    for_each_player(context, function(player_id)
+      Net.unlock_player_equipment(player_id)
+    end)
+
+    self:execute_next_node(context, context.area_id, object)
+  end)
+
+  self:implement_node("set restrictions", function(context, object)
+    local path = self.ASSET_PREFIX .. object.custom_properties.Path
+
+    for_each_player(context, function(player_id)
+      Net.set_player_restrictions(player_id, path)
+    end)
+
+    self:execute_next_node(context, context.area_id, object)
   end)
 end
 
@@ -2658,7 +2706,7 @@ end
 ---
 ---Custom properties supported by `Area Transition`:
 --- - `Fade` a color to fade to (optional)
---- - `Direction` number, the direction players should walk or face during the transition (optional)
+--- - `Direction` string, the direction players should walk or face during the transition (optional)
 --- - `Walk Distance` number, how far players should walk during the transition (optional)
 --- - `Next [1]` a link to the next node, executes before the screen fades back in. (optional)
 function ScriptNodes:implement_common_animations_api()
@@ -2683,7 +2731,7 @@ function ScriptNodes:implement_common_animations_api()
     if walk_distance then
       keyframe_properties[1] = { property = "X", ease = "Linear", value = 0 }
       keyframe_properties[2] = { property = "Y", ease = "Linear", value = 0 }
-    else
+    elseif direction then
       keyframe_properties[1] = { property = "Direction", value = direction }
     end
 
@@ -3815,7 +3863,10 @@ function ScriptNodes:implement_variable_api()
 
     local original_context = context
 
-    context = { variable_scopes = original_context.variable_scopes }
+    context = {
+      area_id = original_context.area_id,
+      variable_scopes = original_context.variable_scopes,
+    }
 
     if target == "Player" then
       context.player_ids = original_context.player_ids
@@ -3841,7 +3892,8 @@ function ScriptNodes:implement_variable_api()
       callback(self_context)
     else
       local self_context = {
-        variable_scopes = context.variable_scopes
+        area_id = context.area_id,
+        variable_scopes = context.variable_scopes,
       }
 
       for _, player_id in ipairs(context.player_ids) do
@@ -3892,6 +3944,7 @@ function ScriptNodes:implement_variable_api()
   self:implement_node("require variable value", function(context, object)
     local variable = object.custom_properties.Variable
     local required_value = object.custom_properties.Value
+    local required_value_as_number = tonumber(object.custom_properties.Value)
     local min = tonumber(object.custom_properties.Minimum or object.custom_properties.Min)
     local max = tonumber(object.custom_properties.Maximum or object.custom_properties.Max)
 
@@ -3903,7 +3956,7 @@ function ScriptNodes:implement_variable_api()
       at_least_one = true
 
       if required_value then
-        pass = pass and (required_value == value or tonumber(required_value) == value)
+        pass = pass and (required_value == value or required_value_as_number == value)
       else
         local pass_min = not min or value >= min
         local pass_max = not max or value <= max

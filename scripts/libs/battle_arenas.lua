@@ -199,6 +199,27 @@ function Lib.create_arena(area_id, options)
   return arena
 end
 
+function Lib.destroy_arenas_in_area(area_id)
+  local arenas = arenas_by_area[area_id]
+
+  if not arenas then
+    return
+  end
+
+  arenas_by_area[area_id] = nil
+  for _, arena in ipairs(arenas) do
+    for player_id, _ in pairs(arena.locked_players) do
+      if Net.is_player(player_id) then
+        Net.unlock_player_input(player_id)
+      end
+
+      local tracked_player = tracked_players[player_id]
+      tracked_player.arena = nil
+      tracked_player.team_range = nil
+    end
+  end
+end
+
 function BattleArena:set_encounter_package(path)
   self.encounter_path = path
 end
@@ -381,9 +402,11 @@ function BattleArena:try_start()
 
           local direction = tracked_player.team_range.face_direction
 
-          self.locked_players[player_id] = true
+          if not self.locked_players[player_id] then
+            self.locked_players[player_id] = true
+            Net.lock_player_input(player_id)
+          end
 
-          Net.lock_player_input(player_id)
           Net.animate_actor_properties(player_id, {
             {
               properties = { { property = "Direction", value = direction, ease = "Ceil" } },
@@ -635,6 +658,7 @@ end)
 
 Net:on("battle_results", function(event)
   local tracked_player = tracked_players[event.player_id]
+  print("battle completed for " .. event.player_id .. " " .. tostring(tracked_player ~= nil))
 
   if not tracked_player then
     return

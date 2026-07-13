@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="isometric" renderorder="right-down" compressionlevel="0" width="21" height="23" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="207">
+<map version="1.10" tiledversion="1.12.2" orientation="isometric" renderorder="right-down" compressionlevel="0" width="21" height="23" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="216">
  <properties>
   <property name="Background Animation" value="/server/assets/anime.animation"/>
   <property name="Background Texture" value="/server/assets/anime.png"/>
@@ -159,13 +159,13 @@
   </object>
   <object id="172" name="Door" gid="122" x="460" y="36" width="34" height="67">
    <properties>
-    <property name="On Interact" type="object" value="173"/>
+    <property name="On Interact" type="object" value="212"/>
    </properties>
   </object>
-  <object id="173" type="Script Node: Message" x="462" y="-10">
+  <object id="173" type="Script Node: Message" x="480" y="-73.0477">
    <properties>
-    <property name="Next" type="object" value="0"/>
-    <property name="Text" value="&quot;Employees Only&quot;"/>
+    <property name="Next" type="object" value="214"/>
+    <property name="Text" value="Enter Room Code:"/>
    </properties>
    <point/>
   </object>
@@ -266,5 +266,60 @@
   <object id="201" gid="145" x="301" y="638" width="21" height="31"/>
   <object id="205" gid="146" x="305" y="476" width="32" height="32"/>
   <object id="206" gid="146" x="305" y="156" width="32" height="32"/>
+  <object id="208" type="Script Node: Coded Instance" x="480.018" y="-96">
+   <properties>
+    <property name="Area" value="tournament"/>
+    <property name="Next" type="object" value="210"/>
+    <property name="Target" type="int" value="57"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="209" type="Script Node: Camera" x="480.018" y="-48">
+   <properties>
+    <property name="Duration" type="float" value="0.25"/>
+    <property name="Fade" type="color" value="#ff000000"/>
+    <property name="Next" type="object" value="173"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="210" type="Script Node: Camera" x="480" y="-120">
+   <properties>
+    <property name="Duration" type="float" value="0.5"/>
+    <property name="Fade" type="color" value="#00000000"/>
+    <property name="Unlocks" type="bool" value="true"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="211" name="Instance Return Point" x="520" y="107">
+   <properties>
+    <property name="Direction" value="Down Left"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="212" type="Script Node: Require Variable Value" x="456" y="-16">
+   <properties>
+    <property name="Next 2" type="object" value="213"/>
+    <property name="Target" value="Player"/>
+    <property name="Value" type="int" value="0"/>
+    <property name="Variable" value="Self: Interacting"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="213" type="Script Node: Increment Variable" x="448" y="-48">
+   <properties>
+    <property name="Next" type="object" value="209"/>
+    <property name="Target" value="Player"/>
+    <property name="Variable" value="Self: Interacting"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="214" type="Script Node: Decrement Variable" x="504" y="-72">
+   <properties>
+    <property name="Next" type="object" value="208"/>
+    <property name="Target" value="Player"/>
+    <property name="Variable" value="Self: Interacting"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
 </map>
