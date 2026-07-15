@@ -4,8 +4,19 @@ local ArcadeFields = require("dev.konstinople.library.arcade_fields")
 
 ---@param encounter Encounter
 function encounter_init(encounter, data)
-  ArcadeFields.apply_pvp_rules(encounter)
-  ArcadeFields.randomize_field()
+  if data and data.custom_config then
+    encounter:set_field_size(
+      data.custom_config.field_width + 2,
+      data.custom_config.field_height + 2
+    )
+  end
+
+  ArcadeFields.apply_pvp_rules(encounter, data)
+
+  if not data or not data.custom_config or data.custom_config.randomize then
+    ArcadeFields.randomize_field()
+  end
+
   ArcadeFields.randomize_ambience(encounter)
   ArcadeFields.spawn_players(encounter, data)
 

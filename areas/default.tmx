@@ -268,7 +268,7 @@
   <object id="206" gid="146" x="305" y="156" width="32" height="32"/>
   <object id="208" type="Script Node: Coded Instance" x="480.018" y="-96">
    <properties>
-    <property name="Area" value="tournament"/>
+    <property name="Area" value="private"/>
     <property name="Next" type="object" value="210"/>
     <property name="Target" type="int" value="57"/>
    </properties>

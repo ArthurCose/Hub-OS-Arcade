@@ -105,153 +105,217 @@ function Lib.randomize_field()
     end)
   end
 
+  local function center_cols()
+    local c2 = Field.width() // 2
+
+    if Field.width() % 2 == 1 then
+      return c2, c2
+    end
+
+    local c1 = c2 - 1
+    return c1, c2
+  end
+
+  local function team_center_cols()
+    return 2, Field.width() - 3
+  end
+
   local list = {
     -- centered cubes
     function()
-      spawn_rock_cube(2, 2)
-      spawn_rock_cube(5, 2)
+      local t1, t2 = team_center_cols()
+
+      spawn_rock_cube(t1, Field.height() // 2)
+      spawn_rock_cube(t2, Field.height() // 2)
     end,
     -- diagonal cubes
     function()
-      spawn_rock_cube(3, 1)
-      spawn_rock_cube(4, 3)
+      local c1, c2 = center_cols()
+      spawn_rock_cube(c1, 1)
+      spawn_rock_cube(c2, Field.height() - 2)
     end,
     -- diagonals cracked
     function()
+      local c1, c2 = center_cols()
+      local y2 = Field.height() - 2
+
       set_state(1, 1, TileState.Cracked)
-      set_state(3, 3, TileState.Cracked)
-      set_state(6, 1, TileState.Cracked)
-      set_state(4, 3, TileState.Cracked)
+      set_state(c1, y2, TileState.Cracked)
+      set_state(Field.width() - 2, 1, TileState.Cracked)
+      set_state(c2, y2, TileState.Cracked)
     end,
     -- corners cracked
     function()
-      set_state(1, 1, TileState.Cracked)
-      set_state(3, 1, TileState.Cracked)
-      set_state(1, 3, TileState.Cracked)
-      set_state(3, 3, TileState.Cracked)
+      local c1, c2 = center_cols()
+      local x2 = Field.width() - 2
+      local y2 = Field.height() - 2
 
-      set_state(4, 1, TileState.Cracked)
-      set_state(6, 1, TileState.Cracked)
-      set_state(4, 3, TileState.Cracked)
-      set_state(6, 3, TileState.Cracked)
+      set_state(1, 1, TileState.Cracked)
+      set_state(c1, 1, TileState.Cracked)
+      set_state(1, y2, TileState.Cracked)
+      set_state(c1, y2, TileState.Cracked)
+
+      set_state(c2, 1, TileState.Cracked)
+      set_state(x2, 1, TileState.Cracked)
+      set_state(c2, y2, TileState.Cracked)
+      set_state(x2, y2, TileState.Cracked)
     end,
     -- back row cracked
     function()
-      for y = 1, 3 do
+      local x2 = Field.width() - 2
+      local y2 = Field.height() - 2
+
+      for y = 1, y2 do
         set_state(1, y, TileState.Cracked)
-        set_state(6, y, TileState.Cracked)
+        set_state(x2, y, TileState.Cracked)
       end
     end,
     -- back row poison
     function()
-      for y = 1, 3 do
+      local x2 = Field.width() - 2
+      local y2 = Field.height() - 2
+
+      for y = 1, y2 do
         set_state(1, y, TileState.Poison)
-        set_state(6, y, TileState.Poison)
+        set_state(x2, y, TileState.Poison)
       end
     end,
     -- back columns grass
     function()
-      for y = 1, 3 do
+      local x2 = Field.width() - 2
+      local y2 = Field.height() - 2
+
+      for y = 1, y2 do
         set_state(1, y, TileState.Grass)
         set_state(2, y, TileState.Grass)
-        set_state(5, y, TileState.Grass)
-        set_state(6, y, TileState.Grass)
+        set_state(x2 - 1, y, TileState.Grass)
+        set_state(x2, y, TileState.Grass)
       end
     end,
     -- diagonal grass patches
     function()
+      local x2 = Field.width() - 2
+
       for i = 1, 2 do
         set_state(1, i, TileState.Grass)
         set_state(2, i, TileState.Grass)
-        set_state(5, i + 1, TileState.Grass)
-        set_state(6, i + 1, TileState.Grass)
+        set_state(x2 - 1, i + 1, TileState.Grass)
+        set_state(x2, i + 1, TileState.Grass)
       end
     end,
     -- all grass with rocks
     function()
+      local x2 = Field.width() - 2
+      local y2 = Field.height() - 2
+
       for i = 1, 2 do
         set_state(1, i, TileState.Grass)
         set_state(2, i, TileState.Grass)
-        set_state(5, i + 1, TileState.Grass)
-        set_state(6, i + 1, TileState.Grass)
+        set_state(x2 - 1, y2 - i + 1, TileState.Grass)
+        set_state(x2, y2 - i + 1, TileState.Grass)
       end
 
       spawn_boulder(2, 1)
-      spawn_boulder(5, 3)
+      spawn_boulder(x2 - 1, y2)
     end,
     -- front columns ice
     function()
-      for y = 1, 3 do
-        set_state(2, y, TileState.Ice)
-        set_state(3, y, TileState.Ice)
-        set_state(4, y, TileState.Ice)
-        set_state(5, y, TileState.Ice)
+      local c1, c2 = center_cols()
+      local y2 = Field.height() - 2
+
+      for y = 1, y2 do
+        set_state(c1 - 1, y, TileState.Ice)
+        set_state(c1, y, TileState.Ice)
+        set_state(c2, y, TileState.Ice)
+        set_state(c2 + 1, y, TileState.Ice)
       end
 
       if math.random(2) == 1 then
         -- diagonal ice
-        spawn_ice_cube(3, 1)
-        spawn_ice_cube(4, 3)
+        spawn_ice_cube(c1, 1)
+        spawn_ice_cube(c2, y2)
       end
     end,
     -- back columns ice
     function()
-      for y = 1, 3 do
+      local x2 = Field.width() - 2
+      local y2 = Field.height() - 2
+
+      for y = 1, y2 do
         set_state(1, y, TileState.Ice)
         set_state(2, y, TileState.Ice)
-        set_state(5, y, TileState.Ice)
-        set_state(6, y, TileState.Ice)
+        set_state(x2 - 1, y, TileState.Ice)
+        set_state(x2, y, TileState.Ice)
       end
 
       if math.random(2) == 1 then
         -- centered ice
-        spawn_ice_cube(2, 2)
-        spawn_ice_cube(5, 2)
+        local c1, c2 = center_cols()
+        local center_y = Field.height() // 2
+        spawn_ice_cube(c1 - 1, center_y)
+        spawn_ice_cube(c2 + 1, center_y)
       end
     end,
     -- front volcanos
     function()
-      for y = 1, 3 do
-        set_state(3, y, TileState.Volcano)
-        set_state(4, y, TileState.Volcano)
+      local c1, c2 = center_cols()
+
+      for y = 1, Field.height() - 2 do
+        set_state(c1, y, TileState.Volcano)
+        set_state(c2, y, TileState.Volcano)
       end
     end,
     -- back volcanos
     function()
-      for y = 1, 3 do
+      local x2 = Field.width() - 2
+
+      for y = 1, Field.height() - 2 do
         set_state(1, y, TileState.Volcano)
-        set_state(6, y, TileState.Volcano)
+        set_state(x2, y, TileState.Volcano)
       end
     end,
     -- center hole
     function()
-      set_state(2, 2, TileState.PermaHole)
-      set_state(5, 2, TileState.PermaHole)
+      local t1, t2 = team_center_cols()
+      local center_y = Field.height() // 2
+
+      set_state(t1, center_y, TileState.PermaHole)
+      set_state(t2, center_y, TileState.PermaHole)
     end,
     -- opposing front hole
     function()
-      set_state(3, 1, TileState.PermaHole)
-      set_state(4, 3, TileState.PermaHole)
+      local c1, c2 = center_cols()
+      local y2 = Field.height() - 2
+
+      set_state(c1, 1, TileState.PermaHole)
+      set_state(c2, y2, TileState.PermaHole)
     end,
     -- center holy
     function()
-      set_state(2, 2, TileState.Holy)
-      set_state(5, 2, TileState.Holy)
+      local t1, t2 = team_center_cols()
+      local center_y = Field.height() // 2
+
+      set_state(t1, center_y, TileState.Holy)
+      set_state(t2, center_y, TileState.Holy)
     end,
     -- front holy
     function()
-      for y = 1, 3 do
-        set_state(3, y, TileState.Holy)
-        set_state(4, y, TileState.Holy)
+      local c1, c2 = center_cols()
+
+      for y = 1, Field.height() - 2 do
+        set_state(c1, y, TileState.Holy)
+        set_state(c2, y, TileState.Holy)
       end
     end,
 
     -- custom
     -- front sea
     function()
-      for y = 1, 3 do
-        set_state(3, y, TileState.Sea)
-        set_state(4, y, TileState.Sea)
+      local c1, c2 = center_cols()
+
+      for y = 1, Field.height() - 2 do
+        set_state(c1, y, TileState.Sea)
+        set_state(c2, y, TileState.Sea)
       end
     end
   }
@@ -260,23 +324,67 @@ function Lib.randomize_field()
 end
 
 function Lib.create_player_spawn_resolver()
-  local spawn_pattern = {
-    { 2, 2 }, -- center
-    { 1, 3 }, -- bottom left
-    { 1, 1 }, -- top left
-    { 3, 3 }, -- bottom right
-    { 3, 1 }, -- top right
-    { 1, 2 }, -- back
-    { 3, 2 }, -- front
-    { 2, 1 }, -- top
-    { 2, 3 }, -- bottom
-  }
+  local spawn_pattern
+
+  if Field.width() == 8 and Field.height() == 5 then
+    spawn_pattern = {
+      { 2, 2 }, -- center
+      { 1, 3 }, -- bottom left
+      { 1, 1 }, -- top left
+      { 3, 3 }, -- bottom right
+      { 3, 1 }, -- top right
+      { 1, 2 }, -- back
+      { 3, 2 }, -- front
+      { 2, 1 }, -- top
+      { 2, 3 }, -- bottom
+    }
+  else
+    -- generate a pattern that looks like: >>
+    spawn_pattern = {}
+
+    local w = Field.width()
+    local h = Field.height()
+
+    local function push_position(x, y)
+      if y > 0 and x > 0 and x < w - 1 and y < h - 1 then
+        spawn_pattern[#spawn_pattern + 1] = { x, y }
+      end
+    end
+
+    local cx = w // 2 - 1
+    local cy = h // 2
+
+    local start_x = cx - 1
+    local lead_x = start_x
+
+    while true do
+      push_position(lead_x, cy)
+
+      for offset = 1, math.min(lead_x, cy) do
+        push_position(lead_x - offset, cy + offset)
+        push_position(lead_x - offset, cy - offset)
+      end
+
+      lead_x = lead_x - 1
+
+      if lead_x == start_x then
+        break
+      end
+
+      if lead_x < 1 then
+        lead_x = cx + cy
+      end
+    end
+  end
 
   local red_attempts = 0
   local blue_attempts = 0
 
   ---@param team Team
   return function(team)
+    local MAX_FAILS = (Field.width() - 2) * (Field.height() - 2)
+    local fails = 0
+
     while true do
       local spawn_index
 
@@ -295,7 +403,7 @@ function Lib.create_player_spawn_resolver()
 
       if team == Team.Blue then
         -- mirror
-        x = 7 - x
+        x = Field.width() - 1 - x
       end
 
       local tile = Field.tile_at(x, y)
@@ -304,7 +412,7 @@ function Lib.create_player_spawn_resolver()
         goto continue
       end
 
-      if tile:is_walkable() and not tile:is_reserved() then
+      if fails > MAX_FAILS or (tile:is_walkable() and not tile:is_reserved()) then
         return x, y
       end
 
@@ -319,6 +427,8 @@ function Lib.create_player_spawn_resolver()
       end
 
       ::continue::
+
+      fails = fails + 1
     end
   end
 end
@@ -394,9 +504,39 @@ function Lib.spawn_players(encounter, data)
 end
 
 ---@param encounter Encounter
-function Lib.apply_pvp_rules(encounter)
-  encounter:set_turn_limit(15)
-  encounter:set_time_freeze_chain_limit(TimeFreezeChainLimit.Unlimited)
+function Lib.apply_pvp_rules(encounter, data)
+  local custom_config = data and data.custom_config or {}
+
+  encounter:set_turn_limit(custom_config.turn_limit or 15)
+
+  if custom_config.tfc_limit == "1/Plyr" then
+    encounter:set_time_freeze_chain_limit(TimeFreezeChainLimit.PerEntity(1))
+  elseif custom_config.tfc_limit == "1/Team" then
+    encounter:set_time_freeze_chain_limit(TimeFreezeChainLimit.PerTeam(1))
+  else
+    encounter:set_time_freeze_chain_limit(TimeFreezeChainLimit.Unlimited)
+  end
+
+  if custom_config.select_time then
+    Timers.CardSelectTimer.MAX_TIME = custom_config.select_time * 60
+  end
+
+  if custom_config.damage_multiplier and custom_config.damage_multiplier ~= 1 then
+    local artifact = Artifact.new()
+
+    artifact.on_update_func = function()
+      Field.find_players(function(player)
+        local expr = "DAMAGE * " .. (custom_config.damage_multiplier - 1)
+        local aux_prop = AuxProp.new():increase_pre_hit_damage(expr)
+        player:add_aux_prop(aux_prop)
+        return false
+      end)
+      artifact:delete()
+    end
+
+    Field.spawn(artifact, 0, 0)
+  end
+
   HitDamageJudge.init(encounter)
   SpectatorFun.init(encounter)
 

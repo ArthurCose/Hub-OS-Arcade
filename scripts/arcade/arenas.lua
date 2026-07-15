@@ -1,6 +1,7 @@
 local BattleArenas = require("scripts/libs/battle_arenas")
 local PlayerSaveData = require("scripts/arcade/player_data")
 local scripts = require("scripts/arcade/script_nodes")
+local tie_console = require("scripts/arcade/arena_console")
 
 local LAUNCH_DIRS = { "Up", "Down" }
 
@@ -87,7 +88,15 @@ local function load_area(area_id)
         required_teams = { "red", "blue" }
       })
 
-      arena.events:on("eject_player", function(event)
+      local console_object_id = tonumber(object.custom_properties.Console)
+
+      if console_object_id then
+        tie_console(arena, console_object_id)
+      end
+
+      local arena_events = arena:events()
+
+      arena_events:on("eject_player", function(event)
         if event.team_range.team == "spectators" then
           return
         end
@@ -138,7 +147,7 @@ local function load_area(area_id)
       local custom_reward = object.custom_properties["Custom Reward"] == "true"
 
       if not custom_reward then
-        arena.events:on("battle_results", function(event)
+        arena_events:on("battle_results", function(event)
           if event.ran or event.turns <= reward_min_turns then
             return
           end

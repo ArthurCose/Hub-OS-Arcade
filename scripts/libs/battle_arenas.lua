@@ -64,10 +64,10 @@ end
 
 ---@class BattleArena
 ---@field area_id string
----@field events Net.EventEmitter "battle_start" - called just before initiating netplay, "eject_player" { player_id, x, y, z, team_range }, "battle_results" [battle_results](https://docs.hubos.dev/server/lua-api/events#battle_results).
 ---@field detection_range BattleArena.Range
 ---@field team_ranges BattleArena.TeamRange[]
 ---@field teams table<string, Net.ActorId[]>
+---@field package _events Net.EventEmitter
 ---@field package required_teams string[]
 ---@field package pve? boolean
 ---@field package min_players number
@@ -182,7 +182,7 @@ function Lib.create_arena(area_id, options)
     pve = options.pve,
     min_players = options.min_players or 1,
     detection_range = detection_range,
-    events = Net.EventEmitter.new(),
+    _events = Net.EventEmitter.new(),
     countdown_bots = countdown_bots,
   }
   setmetatable(arena, BattleArena)
@@ -217,7 +217,17 @@ function Lib.destroy_arenas_in_area(area_id)
       tracked_player.arena = nil
       tracked_player.team_range = nil
     end
+
+    arena._events:emit("destroyed")
   end
+end
+
+--- - "preparing_battle" { data } - called just before initiating netplay
+--- - "eject_player" { player_id, x, y, z, team_range }
+--- - "battle_results" [battle_results](https://docs.hubos.dev/server/lua-api/_events#battle_results)
+--- - "destroyed"
+function BattleArena:events()
+  return self._events
 end
 
 function BattleArena:set_encounter_package(path)
@@ -293,8 +303,6 @@ end
 local function start_encounter(self)
   local player_ids = {}
 
-  self.events:emit("battle_start")
-
   local team_data = {}
 
   for team_id, team_players in pairs(self.teams) do
@@ -308,9 +316,13 @@ local function start_encounter(self)
     }
   end
 
-  Net.initiate_netplay(player_ids, self.encounter_path, {
+  local data = {
     teams = team_data
-  })
+  }
+
+  self._events:emit("preparing_battle", { data = data })
+
+  Net.initiate_netplay(player_ids, self.encounter_path, data)
 end
 
 ---@package
@@ -458,7 +470,7 @@ local function eject_player(arena, player_id, x, y, z)
   local team_range = resolve_team_range(arena, x, y, z)
 
   if team_range then
-    arena.events:emit("eject_player", {
+    arena._events:emit("eject_player", {
       player_id = player_id,
       team_range = team_range,
       x = x,
@@ -678,7 +690,7 @@ Net:on("battle_results", function(event)
     end
   end)
 
-  arena.events:emit("battle_results", event)
+  arena._events:emit("battle_results", event)
 end)
 
 
