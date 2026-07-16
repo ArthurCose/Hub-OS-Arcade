@@ -463,6 +463,8 @@ function Lib.spawn_players(encounter, data)
 
   for_players_in_teams(encounter, data.teams, function(i, team_name)
     if team_name == "red" or team_name == "blue" then
+      active_player_count = active_player_count + 1
+
       local team
 
       if team_name == "blue" then
