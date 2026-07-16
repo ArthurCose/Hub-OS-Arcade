@@ -37,13 +37,15 @@ local function load_area(area_id)
         }
       }
 
+      local console_object_id = tonumber(object.custom_properties.Console)
+
       local launch_direction = object.custom_properties["Launch Direction"]
       local launch_dist = tonumber(object.custom_properties["Launch Distance"]) or 1
       local launch_elevation = tonumber(object.custom_properties["Launch Elevation"]) or 0
       local top = object.y
       local bottom = object.y + object.height
-      local spectators_above = launch_direction ~= "Down"
-      local spectators_below = launch_direction ~= "Up"
+      local spectators_above = launch_direction ~= "Down" or console_object_id ~= nil
+      local spectators_below = launch_direction ~= "Up" or console_object_id ~= nil
 
       if object.custom_properties["Disable Spectating"] then
         spectators_above = false
@@ -87,8 +89,6 @@ local function load_area(area_id)
         team_ranges = team_ranges,
         required_teams = { "red", "blue" }
       })
-
-      local console_object_id = tonumber(object.custom_properties.Console)
 
       if console_object_id then
         tie_console(arena, console_object_id)
