@@ -346,7 +346,7 @@ function Lib.create_player_spawn_resolver()
     local h = Field.height()
 
     local function push_position(x, y)
-      if y > 0 and x > 0 and x < w - 1 and y < h - 1 then
+      if y > 0 and x > 0 and x < w // 2 and y < h - 1 then
         spawn_pattern[#spawn_pattern + 1] = { x, y }
       end
     end
@@ -372,7 +372,7 @@ function Lib.create_player_spawn_resolver()
       end
 
       if lead_x < 1 then
-        lead_x = cx + cy
+        lead_x = math.max(cx, h)
       end
     end
   end
@@ -422,7 +422,7 @@ function Lib.create_player_spawn_resolver()
         tile = tile:get_tile(Direction.Left, 1)
       end
 
-      if tile and tile:is_walkable() and not tile:is_reserved() then
+      if tile and tile:is_walkable() and not tile:is_reserved() and not tile:is_edge() then
         return tile:x(), tile:y()
       end
 
