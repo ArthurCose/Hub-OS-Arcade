@@ -81,7 +81,7 @@ local config_options = {
       return "Select Time", value .. "s"
     end,
     on_select = function(player_id, _, callback)
-      prompt_range(player_id, 1, 10000, callback)
+      prompt_range(player_id, 0, 10000, callback)
     end
   },
   {
