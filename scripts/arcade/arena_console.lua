@@ -101,7 +101,8 @@ local config_options = {
       return "Field Width", value
     end,
     on_select = function(player_id, _, callback)
-      prompt_range(player_id, 2, 254, function(value) callback(value + value % 2) end)
+      -- smaller than 255 to account for edge tile padding, and to round to a nice number
+      prompt_range(player_id, 2, 250, function(value) callback(value + value % 2) end)
     end
   },
   {
@@ -111,7 +112,8 @@ local config_options = {
       return "Field Height", value
     end,
     on_select = function(player_id, _, callback)
-      prompt_range(player_id, 1, 255, callback)
+      -- smaller than 255 to account for edge tile padding, and to round to a nice number
+      prompt_range(player_id, 1, 250, callback)
     end
   },
   {
