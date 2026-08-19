@@ -61,8 +61,8 @@ local package_ids = {
   "BattleNetwork6.Class01.Standard.055", -- MachGun1
   "BattleNetwork6.Class01.Standard.056", -- MachGun2
   "BattleNetwork6.Class01.Standard.057", -- MachGun3
-  "BattleNetwork4.Class01.Standard.075.Lance",
   "BattleNetwork6.Class01.Standard.121.MegaBoomerang",
+  "BattleNetwork6.Class01.Standard.122.Lance",
   "BattleNetwork6.Class01.Standard.130", -- JusticeOne
   "BattleNetwork6.Class01.Standard.134.Wind",
   "BattleNetwork6.Class01.Standard.124", -- ElecDragon
